@@ -43,8 +43,8 @@ namespace Squeeze.Entities
             {
                 var prey = PreyFactory.CreateNew();
                 prey.HeadBody = HeadBody;
-                int x = m_random.Next(0 + 32, 800 - 32);
-                int y = m_random.Next(0 + 32, 600 - 32);
+                int x = m_random.Next(0 + 64, 800 - 64);
+                int y = m_random.Next(0 + 64, 600 - 64);
 
                 prey.Body.Position = new Microsoft.Xna.Framework.Vector2(x, y);
             }

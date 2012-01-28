@@ -15,7 +15,7 @@
     <Y>0</Y>
     <Z>-40</Z>
     <Orthogonal>true</Orthogonal>
-    <OrthogonalHeight>1002</OrthogonalHeight>
+    <OrthogonalHeight>1673.34</OrthogonalHeight>
     <OrthogonalWidth>-1</OrthogonalWidth>
     <NearClipPlane>1</NearClipPlane>
     <FarClipPlane>1000</FarClipPlane>
@@ -27,6 +27,10 @@
   <TextureDisplayRegionsList>
     <TextureDisplayRegionsSave>
       <TextureName>pinksquare.png</TextureName>
+      <DisplayRegions />
+    </TextureDisplayRegionsSave>
+    <TextureDisplayRegionsSave>
+      <TextureName>mouse.png</TextureName>
       <DisplayRegions />
     </TextureDisplayRegionsSave>
   </TextureDisplayRegionsList>

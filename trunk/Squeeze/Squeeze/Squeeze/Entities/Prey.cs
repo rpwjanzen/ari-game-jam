@@ -40,12 +40,12 @@ namespace Squeeze.Entities
 		{
             m_world = FarseerPhysicsEntity.World;
 
-            var body = BodyFactory.CreateRectangle(m_world, 32, 32, 1);
+            var body = BodyFactory.CreateRectangle(m_world, 64, 64, 1);
             body.BodyType = BodyType.Dynamic;
             body.LinearDamping = 0.15f;
             body.AngularDamping = 0.15f;
 
-            var rectangleVertices = PolygonTools.CreateRectangle(16f, 16f, Vector2.Zero, 0);
+            var rectangleVertices = PolygonTools.CreateRectangle(32f, 32f, Vector2.Zero, 0);
             var shape = new PolygonShape(rectangleVertices, 1f);
             body.CreateFixture(shape);
             Body = body;

@@ -52,6 +52,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>BodyScene</Name>
     </None>
+    <None Include="Entities\CreatureBody\snake_body.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>snake_body</Name>
+    </None>
     <None Include="Entities\CreatureBody\whitesquare.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>whitesquare</Name>
@@ -64,9 +68,17 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>HeadScene</Name>
     </None>
+    <None Include="Entities\CreatureHead\snake_head.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>snake_head</Name>
+    </None>
     <None Include="Entities\CreatureTail\cyansquare.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>cyansquare</Name>
+    </None>
+    <None Include="Entities\CreatureTail\snake_tail.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>snake_tail</Name>
     </None>
     <None Include="Entities\CreatureTail\TailScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -79,6 +91,10 @@
     <None Include="Entities\Level1Background\TestScene1.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TestScene1</Name>
+    </None>
+    <None Include="Entities\Prey\mouse.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>mouse</Name>
     </None>
     <None Include="Entities\Prey\pinksquare.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
