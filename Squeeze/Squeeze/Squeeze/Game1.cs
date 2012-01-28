@@ -35,7 +35,7 @@ namespace Squeeze
             Renderer.UseRenderTargets = false;
             FlatRedBallServices.InitializeFlatRedBall(this, graphics);
 
-            //ScreenManager.Start(typeof(SomeScreen).FullName);
+			Screens.ScreenManager.Start(typeof(Squeeze.Screens.GameScreen).FullName);
 
             base.Initialize();
         }
