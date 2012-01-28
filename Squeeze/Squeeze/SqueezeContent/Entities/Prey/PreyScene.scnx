@@ -14,8 +14,8 @@
     <RotationY>0</RotationY>
     <RotationZ>0</RotationZ>
     <RotationZVelocity>0</RotationZVelocity>
-    <ScaleX>16</ScaleX>
-    <ScaleY>16</ScaleY>
+    <ScaleX>32</ScaleX>
+    <ScaleY>32</ScaleY>
     <ScaleXVelocity>0</ScaleXVelocity>
     <ScaleYVelocity>0</ScaleYVelocity>
     <RelativeX>0</RelativeX>
@@ -34,8 +34,8 @@
     <TintGreenRate>0</TintGreenRate>
     <ColorOperation>SelectArg1</ColorOperation>
     <BlendOperation>REGULAR</BlendOperation>
-    <Name>pinksquare1</Name>
-    <Texture>pinksquare.png</Texture>
+    <Name>mouse1</Name>
+    <Texture>mouse.png</Texture>
     <Animate>false</Animate>
     <CurrentChain>-1</CurrentChain>
     <Ordered>true</Ordered>

@@ -53,6 +53,11 @@ namespace Squeeze.Entities
             }
         }
 
+        float halfHeight = 40f / 2f;
+        float halfWidth = 20f / 2f;
+
+        //float radius = 35;
+
 		private void CustomInitialize()
 		{
             m_world = FarseerPhysicsEntity.World;
@@ -64,17 +69,17 @@ namespace Squeeze.Entities
             m_path.Closed = false;
 
             List<Shape> shapes = new List<Shape>();
-            var rectangleVertices = PolygonTools.CreateRectangle(16f, 16f, Vector2.Zero, 0);
+            var rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight, Vector2.Zero, 0);
             shapes.Add(new PolygonShape(rectangleVertices, 1f));
-            shapes.Add(new CircleShape(25f, 1));
+            //shapes.Add(new CircleShape(radius, 1));
 
             List<Body> bodies = PathManager.EvenlyDistributeShapesAlongPath(m_world, m_path, shapes, BodyType.Dynamic, numSegments);
             foreach (var body in bodies)
                 body.LinearDamping = 0.005f;
 
             PathManager.AttachBodiesWithSliderJoint(m_world, bodies,
-                new Vector2(0, -25f),
-                new Vector2(0, 25f),
+                new Vector2(0, -halfHeight),
+                new Vector2(0, halfHeight),
                 false, true, 1, 3);
 
             m_creatureHead = CreatureHeadFactory.CreateNew();
@@ -100,7 +105,9 @@ namespace Squeeze.Entities
 
         private void Join(Body a, Body b)
         {
-            var sliderJoint = JointFactory.CreateSliderJoint(m_world, a, b, new Vector2(0, -25f), new Vector2(0, 25f), 1, 3);
+            var sliderJoint = JointFactory.CreateSliderJoint(m_world, a, b,
+                new Vector2(0, -halfHeight),
+                new Vector2(0, halfHeight), 1, 3);
             sliderJoint.CollideConnected = true;
         }
 
@@ -112,9 +119,9 @@ namespace Squeeze.Entities
             Unjoin(lastBodySegment.Body, tailSegment.Body);
 
             List<Shape> bodyShapes = new List<Shape>();
-            var rectangleVertices = PolygonTools.CreateRectangle(16f, 16f, Vector2.Zero, 0);
+            var rectangleVertices = PolygonTools.CreateRectangle(halfWidth, halfWidth, Vector2.Zero, 0);
             bodyShapes.Add(new PolygonShape(rectangleVertices, 1f));
-            bodyShapes.Add(new CircleShape(25f, 1));
+            //bodyShapes.Add(new CircleShape(halfWidth, 1));
 
             var body = new Body(m_world);
             body.BodyType = BodyType.Dynamic;
@@ -163,7 +170,7 @@ namespace Squeeze.Entities
                     (float)Math.Cos(t.Angle));
 
                 var forward = rotationMatrix.Solve(-Vector2.UnitY);
-                m_creatureHead.Body.ApplyForce(forward * 400);
+                m_creatureHead.Body.ApplyForce(forward * 800);
 
                 isKeyPressed = true;
             }
@@ -179,7 +186,7 @@ namespace Squeeze.Entities
                     (float)Math.Cos(t.Angle));
 
                 var left = rotationMatrix.Solve(Vector2.UnitX);
-                m_creatureHead.Body.ApplyForce(left * 400);
+                m_creatureHead.Body.ApplyForce(left * 800);
 
                 isKeyPressed = true;
             }
@@ -196,7 +203,7 @@ namespace Squeeze.Entities
 
                 var right = rotationMatrix.Solve(-Vector2.UnitX);
 
-                m_creatureHead.Body.ApplyForce(right * 400);
+                m_creatureHead.Body.ApplyForce(right * 800);
 
                 isKeyPressed = true;
             }
