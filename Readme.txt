@@ -1,0 +1,1 @@
+This is our project for the 2012 Global Game Jam!
