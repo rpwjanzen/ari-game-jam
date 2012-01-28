@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using FlatRedBall;
 using FlatRedBall.Input;
 using FlatRedBall.AI.Pathfinding;
@@ -208,9 +209,25 @@ namespace Squeeze.Entities
                 m_creatureTail.Body.ResetDynamics();
             }
 
-            if (keyboard.KeyReleased(Keys.Space))
+            if ((m_creatureHead.Body.Position - m_creatureTail.Body.Position).Length() < 60)
             {
-                AddSegment();
+                List<Vector2> snakePolygonPoints = new List<Vector2>();
+                snakePolygonPoints.Add(m_creatureHead.Body.Position);
+                snakePolygonPoints.Add(m_creatureTail.Body.Position);
+                foreach (CreatureBody mCreatureBody in m_creatureBodies)
+                {
+                    snakePolygonPoints.Add(mCreatureBody.Body.Position);
+                }
+
+                var prey =
+                    PreyGenerator.g_prey.FirstOrDefault(
+                        p => IsPointWithin(new Vector2(p.Position.X, p.Position.Y), snakePolygonPoints));
+
+                if (prey != null)
+                {
+                    AddSegment();
+                    prey.Destroy();
+                }
             }
 		}
 
@@ -230,6 +247,59 @@ namespace Squeeze.Entities
 
             PositionedObjectList<CreatureTail> creatureTails= new PositionedObjectList<CreatureTail>();
             CreatureTailFactory.Initialize(creatureTails, contentManagerName);
+        }
+
+        public bool IsPointWithin(Vector2 point, List<Vector2> poly)
+        {
+            // winding number test for a point in a polygon
+            //      Input:   P = a point,
+            //               V[] = vertex points of a polygon V[n+1] with V[n]=V[0]
+            //      Return:  wn = the winding number (=0 only if P is outside V[])
+
+            int Counter = 0;
+
+            // loop through all edges of the polygon
+            for (int i = 0; i < poly.Count - 1; i++)
+            {   // edge from poly[i] to poly[i+1]
+                if (poly[i].Y <= point.Y)
+                {
+                    // start y <= point.Y
+                    if (poly[i + 1].Y > point.Y)  // an upward crossing
+                    {
+                        if (isLeft(poly[i], poly[i + 1], point) > 0)  // point left of edge
+                        {
+                            ++Counter;  // have a valid up intersect
+                        }
+                    }
+                }
+                else
+                {
+                    // start y > point.y (no test needed)
+                    if (poly[i + 1].Y <= point.Y)     // a downward crossing
+                        if (isLeft(poly[i], poly[i + 1], point) < 0)  // point right of edge
+                        {
+                            --Counter;            // have a valid down intersect
+                        }
+                }
+            }
+            if (Counter != 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private float isLeft(Vector2 LinePoint1, Vector2 LinePoint2, Vector2 TestPoint)
+        {
+            // tests if a point is Left|On|Right of an infinite line.
+            //    Input:  three points LinePoint1, LinePoint2, and TestPoint
+            //    Return: >0 for TestPoint left of the line through LinePoint1 and LinePoint2
+            //            =0 for TestPoint on the line
+            //            <0 for TestPoint right of the line
+            return ((LinePoint2.X - LinePoint1.X) * (TestPoint.Y - LinePoint1.Y) - (TestPoint.X - LinePoint1.X) * (LinePoint2.Y - LinePoint1.Y));
         }
 	}
 }
