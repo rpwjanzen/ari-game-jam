@@ -19,6 +19,7 @@ using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Math;
 using Squeeze.Factories;
+using FarseerPhysics.Dynamics;
 
 
 #endif
@@ -27,13 +28,13 @@ namespace Squeeze.Entities
 {
 	public partial class PreyGenerator
 	{
-        static readonly PositionedObjectList<Prey> g_prey = new PositionedObjectList<Prey>();
-        Random m_random = new Random(271);
+        private static readonly PositionedObjectList<Prey> g_prey = new PositionedObjectList<Prey>();
+        private readonly Random m_random = new Random(271);
+
+        public Body HeadBody { get; set; }
 
 		private void CustomInitialize()
 		{
-
-
 		}
 
 		private void CustomActivity()
@@ -41,6 +42,7 @@ namespace Squeeze.Entities
             while (g_prey.Count < 10)
             {
                 var prey = PreyFactory.CreateNew();
+                prey.HeadBody = HeadBody;
                 int x = m_random.Next(0 + 32, 800 - 32);
                 int y = m_random.Next(0 + 32, 600 - 32);
 
