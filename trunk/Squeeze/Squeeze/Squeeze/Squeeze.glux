@@ -32,6 +32,14 @@
           <AddToManagers>true</AddToManagers>
           <Is2D>false</Is2D>
         </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>Entity</SourceType>
+          <SourceClassType>Entities\PreyGenerator</SourceClassType>
+          <InstanceName>PreyGeneratorInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AddToManagers>true</AddToManagers>
+          <Is2D>false</Is2D>
+        </NamedObjectSave>
       </NamedObjects>
       <Behaviors />
       <UseGlobalContent>false</UseGlobalContent>
@@ -190,6 +198,53 @@
           <OpensWith>C:\Users\Ian\Desktop\FRBDK\TileEditor.exe</OpensWith>
         </ReferencedFileSave>
       </ReferencedFiles>
+      <Behaviors />
+      <CreatedByOtherEntities>false</CreatedByOtherEntities>
+      <PooledByFactory>false</PooledByFactory>
+      <UseGlobalContent>false</UseGlobalContent>
+      <Events />
+    </EntitySave>
+    <EntitySave>
+      <States />
+      <CustomVariables />
+      <IsUnique>false</IsUnique>
+      <ImplementsIClickable>false</ImplementsIClickable>
+      <ImplementsIVisible>false</ImplementsIVisible>
+      <ImplementsIWindow>false</ImplementsIWindow>
+      <Name>Entities\Prey</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>Entities/Prey/PreyScene.scnx</SourceFile>
+          <SourceName>Entire File (Scene)</SourceName>
+          <InstanceName>EntireScene</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AddToManagers>true</AddToManagers>
+          <Is2D>false</Is2D>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/Prey/PreyScene.scnx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <Behaviors />
+      <CreatedByOtherEntities>true</CreatedByOtherEntities>
+      <PooledByFactory>false</PooledByFactory>
+      <UseGlobalContent>false</UseGlobalContent>
+      <Events />
+    </EntitySave>
+    <EntitySave>
+      <States />
+      <CustomVariables />
+      <IsUnique>false</IsUnique>
+      <ImplementsIClickable>false</ImplementsIClickable>
+      <ImplementsIVisible>false</ImplementsIVisible>
+      <ImplementsIWindow>false</ImplementsIWindow>
+      <Name>Entities\PreyGenerator</Name>
+      <NamedObjects />
+      <ReferencedFiles />
       <Behaviors />
       <CreatedByOtherEntities>false</CreatedByOtherEntities>
       <PooledByFactory>false</PooledByFactory>
