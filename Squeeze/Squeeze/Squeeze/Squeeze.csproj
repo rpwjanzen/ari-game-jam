@@ -60,7 +60,7 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlatRedBall, Version=2011.10.26.499, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="FlatRedBall, Version=2012.1.26.1335, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Xna4Pc\FlatRedBall.dll</HintPath>
     </Reference>
@@ -115,6 +115,13 @@
     <Compile Include="Entities\Creature.Generated.cs">
       <DependentUpon>Creature.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\WhiteSquare.cs" />
+    <Compile Include="Entities\WhiteSquare.Generated.cs">
+      <DependentUpon>WhiteSquare.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GlobalContent.Generated.cs" />
+    <Compile Include="Performance\IPoolable.Generated.cs" />
+    <Compile Include="Performance\PoolList.Generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

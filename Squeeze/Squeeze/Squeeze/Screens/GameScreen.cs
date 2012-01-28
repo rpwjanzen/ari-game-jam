@@ -19,6 +19,9 @@ using FlatRedBall.Localization;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
+using FlatRedBall.Graphics.Lighting;
+using Microsoft.Xna.Framework;
+using FlatRedBall.Graphics;
 #endif
 
 namespace Squeeze.Screens
@@ -28,14 +31,16 @@ namespace Squeeze.Screens
 
 		void CustomInitialize()
 		{
+            LightManager.Initialize();
+            LightManager.AddAmbientLight(Color.White);
+            //LightManager.AddDirectionalLight(Vector3.Backward, Color.White);
 
-
+            CreatureInstance.Position = new Vector3(0, 0, -10);
 		}
 
 		void CustomActivity(bool firstTimeCalled)
 		{
-
-
+            
 		}
 
 		void CustomDestroy()

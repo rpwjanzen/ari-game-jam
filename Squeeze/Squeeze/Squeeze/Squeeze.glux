@@ -44,7 +44,42 @@
       </NamedObjects>
       <ReferencedFiles>
         <ReferencedFileSave>
+          <Properties>
+            <PropertySave>
+              <Name>UseContentPipeline</Name>
+              <ValueAsBool>true</ValueAsBool>
+            </PropertySave>
+          </Properties>
           <Name>Entities/Creature/Snack_001e.fbx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <Behaviors />
+      <CreatedByOtherEntities>false</CreatedByOtherEntities>
+      <PooledByFactory>false</PooledByFactory>
+      <UseGlobalContent>false</UseGlobalContent>
+      <Events />
+    </EntitySave>
+    <EntitySave>
+      <States />
+      <CustomVariables />
+      <IsUnique>false</IsUnique>
+      <ImplementsIClickable>false</ImplementsIClickable>
+      <ImplementsIVisible>false</ImplementsIVisible>
+      <ImplementsIWindow>false</ImplementsIWindow>
+      <Name>Entities\WhiteSquare</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <InstanceName>EntireScene</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AddToManagers>true</AddToManagers>
+          <Is2D>false</Is2D>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/WhiteSquare/SceneFile.scnx</Name>
           <IsSharedStatic>true</IsSharedStatic>
         </ReferencedFileSave>
       </ReferencedFiles>
