@@ -6,7 +6,12 @@
       <Events />
       <CustomVariables />
       <Name>Screens\GameScreen</Name>
-      <ReferencedFiles />
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Screens/GameScreen/BackgroundSpriteGrid.scnx</Name>
+          <IsSharedStatic>false</IsSharedStatic>
+        </ReferencedFileSave>
+      </ReferencedFiles>
       <NamedObjects>
         <NamedObjectSave>
           <SourceType>Entity</SourceType>
@@ -36,6 +41,15 @@
           <SourceType>Entity</SourceType>
           <SourceClassType>Entities\PreyGenerator</SourceClassType>
           <InstanceName>PreyGeneratorInstance</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AddToManagers>true</AddToManagers>
+          <Is2D>false</Is2D>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>Screens/GameScreen/BackgroundSpriteGrid.scnx</SourceFile>
+          <SourceName>Entire File (Scene)</SourceName>
+          <InstanceName>SpriteGridInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <AddToManagers>true</AddToManagers>
           <Is2D>false</Is2D>
@@ -186,6 +200,15 @@
           <SourceFile>Entities/Level1Background/TestScene1.scnx</SourceFile>
           <SourceName>Entire File (Scene)</SourceName>
           <InstanceName>BackgroundScene</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AddToManagers>true</AddToManagers>
+          <Is2D>false</Is2D>
+        </NamedObjectSave>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>Entities/Level1Background/TestScene1.scnx</SourceFile>
+          <SourceName>Layer 1 (SpriteGrid)</SourceName>
+          <InstanceName>Level1SpriteGrid</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <AddToManagers>true</AddToManagers>
           <Is2D>false</Is2D>

@@ -28,7 +28,7 @@ namespace Squeeze.Entities
 {
 	public partial class PreyGenerator
 	{
-        private static readonly PositionedObjectList<Prey> g_prey = new PositionedObjectList<Prey>();
+        public static readonly PositionedObjectList<Prey> g_prey = new PositionedObjectList<Prey>();
         private readonly Random m_random = new Random(271);
 
         public Body HeadBody { get; set; }

@@ -31,6 +31,7 @@ using FlatRedBall.Broadcasting;
 using Squeeze.Entities;
 using Squeeze.Factories;
 using FlatRedBall;
+using FlatRedBall;
 
 namespace Squeeze.Screens
 {
@@ -40,11 +41,13 @@ namespace Squeeze.Screens
 		#if DEBUG
 		static bool HasBeenLoadedWithGlobalContentManager = false;
 		#endif
+		private Scene BackgroundSpriteGrid;
 		
 		private Squeeze.Entities.Creature CreatureInstance;
 		private Squeeze.Entities.FarseerPhysicsEntity FarseerPhysicsEntityInstance;
 		private Squeeze.Entities.Level1Background BackgroundInstance;
 		private Squeeze.Entities.PreyGenerator PreyGeneratorInstance;
+		private Scene SpriteGridInstance;
 
 		public GameScreen()
 			: base("GameScreen")
@@ -55,6 +58,15 @@ namespace Squeeze.Screens
         {
 			// Generated Initialize
 			LoadStaticContent(ContentManagerName);
+			if (!FlatRedBallServices.IsLoaded<Scene>(@"content/screens/gamescreen/backgroundspritegrid.scnx", ContentManagerName))
+			{
+			}
+			BackgroundSpriteGrid = FlatRedBallServices.Load<Scene>(@"content/screens/gamescreen/backgroundspritegrid.scnx", ContentManagerName);
+			SpriteGridInstance = BackgroundSpriteGrid;
+			for (int i = 0; i < SpriteGridInstance.Texts.Count; i++)
+			{
+				SpriteGridInstance.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
+			}
 			CreatureInstance = new Squeeze.Entities.Creature(ContentManagerName, false);
 			CreatureInstance.Name = "CreatureInstance";
 			FarseerPhysicsEntityInstance = new Squeeze.Entities.FarseerPhysicsEntity(ContentManagerName, false);
@@ -101,6 +113,7 @@ namespace Squeeze.Screens
 			{
 				CustomActivity(firstTimeCalled);
 			}
+			BackgroundSpriteGrid.ManageAll();
 
 
 				// After Custom Activity
@@ -111,6 +124,14 @@ namespace Squeeze.Screens
 		public override void Destroy()
 		{
 			// Generated Destroy
+			if (this.UnloadsContentManagerWhenDestroyed)
+			{
+				BackgroundSpriteGrid.RemoveFromManagers(ContentManagerName != "Global");
+			}
+			else
+			{
+				BackgroundSpriteGrid.RemoveFromManagers(false);
+			}
 			
 			if (CreatureInstance != null)
 			{
@@ -128,6 +149,10 @@ namespace Squeeze.Screens
 			{
 				PreyGeneratorInstance.Destroy();
 			}
+			if (SpriteGridInstance != null)
+			{
+				SpriteGridInstance.RemoveFromManagers(ContentManagerName != "Global");
+			}
 
 			base.Destroy();
 
@@ -141,6 +166,7 @@ namespace Squeeze.Screens
 		}
 		public virtual void AddToManagersBottomUp ()
 		{
+			BackgroundSpriteGrid.AddToManagers(mLayer);
 			CreatureInstance.AddToManagers(mLayer);
 			FarseerPhysicsEntityInstance.AddToManagers(mLayer);
 			BackgroundInstance.AddToManagers(mLayer);
@@ -148,10 +174,12 @@ namespace Squeeze.Screens
 		}
 		public virtual void ConvertToManuallyUpdated ()
 		{
+			BackgroundSpriteGrid.ConvertToManuallyUpdated();
 			CreatureInstance.ConvertToManuallyUpdated();
 			FarseerPhysicsEntityInstance.ConvertToManuallyUpdated();
 			BackgroundInstance.ConvertToManuallyUpdated();
 			PreyGeneratorInstance.ConvertToManuallyUpdated();
+			SpriteGridInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -173,6 +201,12 @@ namespace Squeeze.Screens
 		}
 		object GetMember (string memberName)
 		{
+			switch(memberName)
+			{
+				case  "BackgroundSpriteGrid":
+					return BackgroundSpriteGrid;
+					break;
+			}
 			return null;
 		}
 

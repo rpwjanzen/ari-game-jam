@@ -23,6 +23,7 @@ using Squeeze.Entities;
 using Squeeze.Factories;
 using FlatRedBall;
 using FlatRedBall;
+using FlatRedBall.ManagedSpriteGroups;
 
 #if XNA4
 using Color = Microsoft.Xna.Framework.Color;
@@ -61,6 +62,7 @@ namespace Squeeze.Entities
 		private static Scene TestScene1;
 		
 		private Scene BackgroundScene;
+		private SpriteGrid Level1SpriteGrid;
 		public int Index { get; set; }
 		public bool Used { get; set; }
 		protected Layer LayerProvidedByContainer = null;
@@ -89,6 +91,7 @@ namespace Squeeze.Entities
 			{
 				BackgroundScene.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
 			}
+			Level1SpriteGrid = BackgroundScene.SpriteGrids.FindByName("Layer 1");
 			
 			PostInitialize();
 			if (addToManagers)
@@ -114,6 +117,7 @@ namespace Squeeze.Entities
 			
 			CustomActivity();
 			BackgroundScene.ManageAll();
+			Level1SpriteGrid.Manage();
 			
 			// After Custom Activity
 		}
@@ -126,6 +130,10 @@ namespace Squeeze.Entities
 			if (BackgroundScene != null)
 			{
 				BackgroundScene.RemoveFromManagers(ContentManagerName != "Global");
+			}
+			if (Level1SpriteGrid != null)
+			{
+				Level1SpriteGrid.Destroy();
 			}
 
 
