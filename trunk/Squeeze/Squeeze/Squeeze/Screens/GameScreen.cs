@@ -28,14 +28,22 @@ namespace Squeeze.Screens
 {
 	public partial class GameScreen
 	{
+        private PositionedObject cameraCenter = new PositionedObject();
+
 		void CustomInitialize()
 		{
             SpriteManager.Camera.UsePixelCoordinates();
+            SpriteManager.Camera.AttachTo(cameraCenter, true);
 		}
 
 		void CustomActivity(bool firstTimeCalled)
 		{
-            
+            cameraCenter.Position = CreatureInstance.Centroid;
+
+            // Floor so that we do not have flickering lines between map tiles.
+            cameraCenter.Position.X = (float)Math.Floor(cameraCenter.Position.X);
+            cameraCenter.Position.Y = (float)Math.Floor(cameraCenter.Position.Y);
+            cameraCenter.Position.Z = (float)Math.Floor(cameraCenter.Position.Z);
 		}
 
 		void CustomDestroy()
