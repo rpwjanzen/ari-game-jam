@@ -20,6 +20,7 @@ using FlatRedBall.Graphics;
 using FlatRedBall.Math;
 using FlatRedBall.Broadcasting;
 using Squeeze.Entities;
+using Squeeze.Factories;
 using FlatRedBall;
 
 #if XNA4
