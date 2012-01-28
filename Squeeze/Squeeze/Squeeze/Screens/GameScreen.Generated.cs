@@ -44,6 +44,7 @@ namespace Squeeze.Screens
 		private Squeeze.Entities.Creature CreatureInstance;
 		private Squeeze.Entities.FarseerPhysicsEntity FarseerPhysicsEntityInstance;
 		private Squeeze.Entities.Level1Background BackgroundInstance;
+		private Squeeze.Entities.PreyGenerator PreyGeneratorInstance;
 
 		public GameScreen()
 			: base("GameScreen")
@@ -60,6 +61,8 @@ namespace Squeeze.Screens
 			FarseerPhysicsEntityInstance.Name = "FarseerPhysicsEntityInstance";
 			BackgroundInstance = new Squeeze.Entities.Level1Background(ContentManagerName, false);
 			BackgroundInstance.Name = "BackgroundInstance";
+			PreyGeneratorInstance = new Squeeze.Entities.PreyGenerator(ContentManagerName, false);
+			PreyGeneratorInstance.Name = "PreyGeneratorInstance";
 			
 			
 			PostInitialize();
@@ -88,6 +91,7 @@ namespace Squeeze.Screens
 				CreatureInstance.Activity();
 				FarseerPhysicsEntityInstance.Activity();
 				BackgroundInstance.Activity();
+				PreyGeneratorInstance.Activity();
 			}
 			else
 			{
@@ -120,6 +124,10 @@ namespace Squeeze.Screens
 			{
 				BackgroundInstance.Destroy();
 			}
+			if (PreyGeneratorInstance != null)
+			{
+				PreyGeneratorInstance.Destroy();
+			}
 
 			base.Destroy();
 
@@ -136,12 +144,14 @@ namespace Squeeze.Screens
 			CreatureInstance.AddToManagers(mLayer);
 			FarseerPhysicsEntityInstance.AddToManagers(mLayer);
 			BackgroundInstance.AddToManagers(mLayer);
+			PreyGeneratorInstance.AddToManagers(mLayer);
 		}
 		public virtual void ConvertToManuallyUpdated ()
 		{
 			CreatureInstance.ConvertToManuallyUpdated();
 			FarseerPhysicsEntityInstance.ConvertToManuallyUpdated();
 			BackgroundInstance.ConvertToManuallyUpdated();
+			PreyGeneratorInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -158,6 +168,7 @@ namespace Squeeze.Screens
 			Squeeze.Entities.Creature.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.FarseerPhysicsEntity.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.Level1Background.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.PreyGenerator.LoadStaticContent(contentManagerName);
 			CustomLoadStaticContent(contentManagerName);
 		}
 		object GetMember (string memberName)

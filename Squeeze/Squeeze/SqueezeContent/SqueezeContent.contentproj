@@ -80,6 +80,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TestScene1</Name>
     </None>
+    <None Include="Entities\Prey\pinksquare.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>pinksquare</Name>
+    </None>
+    <None Include="Entities\Prey\PreyScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>PreyScene</Name>
+    </None>
     <None Include="Screens\GameScreen\foresttilesheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>foresttilesheet</Name>

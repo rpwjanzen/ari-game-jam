@@ -135,9 +135,18 @@
     <Compile Include="Entities\Level1Background.Generated.cs">
       <DependentUpon>Level1Background.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Prey.cs" />
+    <Compile Include="Entities\Prey.Generated.cs">
+      <DependentUpon>Prey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\PreyGenerator.cs" />
+    <Compile Include="Entities\PreyGenerator.Generated.cs">
+      <DependentUpon>PreyGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Factories\CreatureBodyFactory.Generated.cs" />
     <Compile Include="Factories\CreatureHeadFactory.Generated.cs" />
     <Compile Include="Factories\CreatureTailFactory.Generated.cs" />
+    <Compile Include="Factories\PreyFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IPoolable.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
