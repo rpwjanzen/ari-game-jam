@@ -109,7 +109,7 @@ namespace Squeeze.Entities
                     (float)Math.Cos(t.Angle));
 
                 var forward = rotationMatrix.Solve(-Vector2.UnitY);
-                m_creatureHead.Body.ApplyForce(forward * 100);
+                m_creatureHead.Body.ApplyForce(forward * 200);
 
                 isKeyPressed = true;
             }
@@ -125,7 +125,7 @@ namespace Squeeze.Entities
                     (float)Math.Cos(t.Angle));
 
                 var left = rotationMatrix.Solve(Vector2.UnitX);
-                m_creatureHead.Body.ApplyForce(left * 100);
+                m_creatureHead.Body.ApplyForce(left * 200);
 
                 isKeyPressed = true;
             }
@@ -142,7 +142,7 @@ namespace Squeeze.Entities
 
                 var right = rotationMatrix.Solve(-Vector2.UnitX);
 
-                m_creatureHead.Body.ApplyForce(right * 100);
+                m_creatureHead.Body.ApplyForce(right * 200);
 
                 isKeyPressed = true;
             }
