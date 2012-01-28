@@ -18,8 +18,11 @@ using Matrix = Microsoft.Xna.Framework.Matrix;
 using FlatRedBall;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math;
+using Squeeze.Performance;
 using FlatRedBall.Broadcasting;
 using Squeeze.Entities;
+using Squeeze.Factories;
+using FlatRedBall;
 using FlatRedBall;
 
 #if XNA4
@@ -40,7 +43,7 @@ using Model = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace Squeeze.Entities
 {
-	public partial class Creature : PositionedObject, IDestroyable
+	public partial class CreatureTail : PositionedObject, IDestroyable, IPoolable
 	{
         // This is made global so that static lazy-loaded content can access it.
         public static string ContentManagerName
@@ -56,18 +59,20 @@ namespace Squeeze.Entities
 		static object mLockObject = new object();
 		static bool mHasRegisteredUnload = false;
 		static bool IsStaticContentLoaded = false;
+		private static Scene TailScene;
 		
+		private Scene EntireScene;
 		public int Index { get; set; }
 		public bool Used { get; set; }
 		protected Layer LayerProvidedByContainer = null;
 
-        public Creature(string contentManagerName) :
+        public CreatureTail(string contentManagerName) :
             this(contentManagerName, true)
         {
         }
 
 
-        public Creature(string contentManagerName, bool addToManagers) :
+        public CreatureTail(string contentManagerName, bool addToManagers) :
 			base()
 		{
 			// Don't delete this:
@@ -80,6 +85,11 @@ namespace Squeeze.Entities
 		{
 			// Generated Initialize
 			LoadStaticContent(ContentManagerName);
+			EntireScene = TailScene.Clone();
+			for (int i = 0; i < EntireScene.Texts.Count; i++)
+			{
+				EntireScene.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
+			}
 			
 			PostInitialize();
 			if (addToManagers)
@@ -104,6 +114,7 @@ namespace Squeeze.Entities
 			// Generated Activity
 			
 			CustomActivity();
+			EntireScene.ManageAll();
 			
 			// After Custom Activity
 		}
@@ -112,7 +123,15 @@ namespace Squeeze.Entities
 		{
 			// Generated Destroy
 			SpriteManager.RemovePositionedObject(this);
+			if (Used)
+			{
+				CreatureTailFactory.MakeUnused(this, false);
+			}
 			
+			if (EntireScene != null)
+			{
+				EntireScene.RemoveFromManagers(false);
+			}
 
 
 			CustomDestroy();
@@ -139,6 +158,8 @@ namespace Squeeze.Entities
 			RotationX = 0;
 			RotationY = 0;
 			RotationZ = 0;
+			EntireScene.AddToManagers(layerToAddTo);
+			EntireScene.AttachAllDetachedTo(this, true);
 			X = oldX;
 			Y = oldY;
 			Z = oldZ;
@@ -150,6 +171,7 @@ namespace Squeeze.Entities
 		{
 			this.ForceUpdateDependenciesDeep();
 			SpriteManager.ConvertToManuallyUpdated(this);
+			EntireScene.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -171,18 +193,23 @@ namespace Squeeze.Entities
 				{
 					if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 					{
-						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureStaticUnload", UnloadStaticContent);
+						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureTailStaticUnload", UnloadStaticContent);
 						mHasRegisteredUnload = true;
 					}
 				}
 				bool registerUnload = false;
+				if (!FlatRedBallServices.IsLoaded<Scene>(@"content/entities/creaturetail/tailscene.scnx", ContentManagerName))
+				{
+					registerUnload = true;
+				}
+				TailScene = FlatRedBallServices.Load<Scene>(@"content/entities/creaturetail/tailscene.scnx", ContentManagerName);
 				if (registerUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 				{
 					lock (mLockObject)
 					{
 						if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 						{
-							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureStaticUnload", UnloadStaticContent);
+							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureTailStaticUnload", UnloadStaticContent);
 							mHasRegisteredUnload = true;
 						}
 					}
@@ -194,9 +221,29 @@ namespace Squeeze.Entities
 		{
 			IsStaticContentLoaded = false;
 			mHasRegisteredUnload = false;
+			if (TailScene != null)
+			{
+				TailScene.RemoveFromManagers(ContentManagerName != "Global");
+				TailScene= null;
+			}
+		}
+		public static object GetStaticMember (string memberName)
+		{
+			switch(memberName)
+			{
+				case  "TailScene":
+					return TailScene;
+			}
+			return null;
 		}
 		object GetMember (string memberName)
 		{
+			switch(memberName)
+			{
+				case  "TailScene":
+					return TailScene;
+					break;
+			}
 			return null;
 		}
 		protected bool mIsPaused;
@@ -208,13 +255,14 @@ namespace Squeeze.Entities
 		public virtual void SetToIgnorePausing ()
 		{
 			InstructionManager.IgnorePausingFor(this);
+			InstructionManager.IgnorePausingFor(EntireScene);
 		}
 
     }
 	
 	
 	// Extra classes
-	public static class CreatureExtensionMethods
+	public static class CreatureTailExtensionMethods
 	{
 	}
 	

@@ -13,12 +13,18 @@ using FlatRedBall.Graphics;
 using FlatRedBall.Utilities;
 
 using Squeeze.Screens;
+using FarseerPhysics.DebugViews;
+using FarseerPhysics.Dynamics;
+using FarseerPhysics;
 
 namespace Squeeze
 {
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        
+        public static World World = new World(Vector2.Zero);
+        public static DebugViewXNA DebugViewXNA;
 
         public Game1()
         {
@@ -28,6 +34,13 @@ namespace Squeeze
 			
 			BackStack<string> bs = new BackStack<string>();
 			bs.Current = string.Empty;
+
+            DebugViewXNA = new DebugViewXNA(World);
+            DebugViewXNA.AppendFlags(DebugViewFlags.DebugPanel);
+            DebugViewXNA.DefaultShapeColor = Color.White;
+            DebugViewXNA.SleepingShapeColor = Color.LightGray;
+
+            this.IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -38,9 +51,10 @@ namespace Squeeze
 
 			Screens.ScreenManager.Start(typeof(Squeeze.Screens.GameScreen).FullName);
 
+            DebugViewXNA.LoadContent(graphics.GraphicsDevice, Content);
+
             base.Initialize();
         }
-
 
         protected override void Update(GameTime gameTime)
         {

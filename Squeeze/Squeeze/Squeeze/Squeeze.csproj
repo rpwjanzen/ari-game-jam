@@ -115,10 +115,25 @@
     <Compile Include="Entities\Creature.Generated.cs">
       <DependentUpon>Creature.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entities\WhiteSquare.cs" />
-    <Compile Include="Entities\WhiteSquare.Generated.cs">
-      <DependentUpon>WhiteSquare.cs</DependentUpon>
+    <Compile Include="Entities\CreatureBody.cs" />
+    <Compile Include="Entities\CreatureBody.Generated.cs">
+      <DependentUpon>CreatureBody.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\CreatureHead.cs" />
+    <Compile Include="Entities\CreatureHead.Generated.cs">
+      <DependentUpon>CreatureHead.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\CreatureTail.cs" />
+    <Compile Include="Entities\CreatureTail.Generated.cs">
+      <DependentUpon>CreatureTail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\FarseerPhysicsEntity.cs" />
+    <Compile Include="Entities\FarseerPhysicsEntity.Generated.cs">
+      <DependentUpon>FarseerPhysicsEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Factories\CreatureBodyFactory.Generated.cs" />
+    <Compile Include="Factories\CreatureHeadFactory.Generated.cs" />
+    <Compile Include="Factories\CreatureTailFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IPoolable.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
@@ -170,6 +185,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DebugView XNA\DebugView XNA.csproj">
+      <Project>{FC7845FA-13FE-4FF8-822A-A577F3F59B00}</Project>
+      <Name>DebugView XNA</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Farseer Physics Engine 3.3 XNA\Farseer Physics XNA.csproj">
+      <Project>{0A850700-1ABB-4288-A391-6726B90EBEB9}</Project>
+      <Name>Farseer Physics XNA</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqueezeContent\SqueezeContent.contentproj">
       <Project>{64B23BEF-DD26-4B81-AAA6-D9F46B0140B4}</Project>
       <Name>SqueezeContent %28Content%29</Name>
