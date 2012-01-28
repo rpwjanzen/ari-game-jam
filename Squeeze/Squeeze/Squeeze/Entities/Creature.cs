@@ -39,6 +39,19 @@ namespace Squeeze.Entities
 
         private List<CreatureBody> m_creatureBodies = new List<CreatureBody>();
 
+        public Vector3 Centroid
+        {
+            get
+            {
+                Vector3 v = m_creatureHead.Position;
+                foreach (var bodySegment in m_creatureBodies)
+                    v += bodySegment.Position;
+                v += m_creatureTail.Position;
+
+                return v / (m_creatureBodies.Count + 2);
+            }
+        }
+
 		private void CustomInitialize()
 		{
             m_world = FarseerPhysicsEntity.World;
