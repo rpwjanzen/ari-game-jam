@@ -40,7 +40,7 @@ using Model = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace Squeeze.Entities
 {
-	public partial class Creature : PositionedObject, IDestroyable
+	public partial class FarseerPhysicsEntity : PositionedObject, IDestroyable
 	{
         // This is made global so that static lazy-loaded content can access it.
         public static string ContentManagerName
@@ -61,13 +61,13 @@ namespace Squeeze.Entities
 		public bool Used { get; set; }
 		protected Layer LayerProvidedByContainer = null;
 
-        public Creature(string contentManagerName) :
+        public FarseerPhysicsEntity(string contentManagerName) :
             this(contentManagerName, true)
         {
         }
 
 
-        public Creature(string contentManagerName, bool addToManagers) :
+        public FarseerPhysicsEntity(string contentManagerName, bool addToManagers) :
 			base()
 		{
 			// Don't delete this:
@@ -171,7 +171,7 @@ namespace Squeeze.Entities
 				{
 					if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 					{
-						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureStaticUnload", UnloadStaticContent);
+						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("FarseerPhysicsEntityStaticUnload", UnloadStaticContent);
 						mHasRegisteredUnload = true;
 					}
 				}
@@ -182,7 +182,7 @@ namespace Squeeze.Entities
 					{
 						if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 						{
-							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureStaticUnload", UnloadStaticContent);
+							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("FarseerPhysicsEntityStaticUnload", UnloadStaticContent);
 							mHasRegisteredUnload = true;
 						}
 					}
@@ -214,7 +214,7 @@ namespace Squeeze.Entities
 	
 	
 	// Extra classes
-	public static class CreatureExtensionMethods
+	public static class FarseerPhysicsEntityExtensionMethods
 	{
 	}
 	

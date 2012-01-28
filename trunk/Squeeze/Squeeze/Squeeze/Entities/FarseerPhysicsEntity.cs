@@ -7,48 +7,53 @@ using FlatRedBall.AI.Pathfinding;
 using FlatRedBall.Graphics.Animation;
 using FlatRedBall.Graphics.Particle;
 
-using FlatRedBall.Graphics.Model;
 using FlatRedBall.Math.Geometry;
 using FlatRedBall.Math.Splines;
-
+using BitmapFont = FlatRedBall.Graphics.BitmapFont;
 using Cursor = FlatRedBall.Gui.Cursor;
 using GuiManager = FlatRedBall.Gui.GuiManager;
-using FlatRedBall.Localization;
 
 #if FRB_XNA || SILVERLIGHT
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
-using FlatRedBall.Graphics.Lighting;
+using FarseerPhysics.Dynamics;
 using Microsoft.Xna.Framework;
-using FlatRedBall.Graphics;
+using FarseerPhysics.Factories;
+using FarseerPhysics;
+using FarseerPhysics.DebugViews;
+
+
 #endif
 
-namespace Squeeze.Screens
+namespace Squeeze.Entities
 {
-	public partial class GameScreen
+    
+	public partial class FarseerPhysicsEntity
 	{
-		void CustomInitialize()
+        public static World World { get { return Game1.World; } }
+        
+
+        private void CustomInitialize()
+        {
+
+        }
+
+		private void CustomActivity()
 		{
-            SpriteManager.Camera.UsePixelCoordinates();
+            Game1.World.Step(1);
 		}
 
-		void CustomActivity(bool firstTimeCalled)
-		{
-            
-		}
-
-		void CustomDestroy()
+		private void CustomDestroy()
 		{
 
 
 		}
 
-        static void CustomLoadStaticContent(string contentManagerName)
+        private static void CustomLoadStaticContent(string contentManagerName)
         {
 
 
         }
-
 	}
 }
