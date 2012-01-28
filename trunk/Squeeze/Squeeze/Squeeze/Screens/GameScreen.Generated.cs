@@ -43,6 +43,7 @@ namespace Squeeze.Screens
 		
 		private Squeeze.Entities.Creature CreatureInstance;
 		private Squeeze.Entities.FarseerPhysicsEntity FarseerPhysicsEntityInstance;
+		private Squeeze.Entities.Level1Background BackgroundInstance;
 
 		public GameScreen()
 			: base("GameScreen")
@@ -57,6 +58,8 @@ namespace Squeeze.Screens
 			CreatureInstance.Name = "CreatureInstance";
 			FarseerPhysicsEntityInstance = new Squeeze.Entities.FarseerPhysicsEntity(ContentManagerName, false);
 			FarseerPhysicsEntityInstance.Name = "FarseerPhysicsEntityInstance";
+			BackgroundInstance = new Squeeze.Entities.Level1Background(ContentManagerName, false);
+			BackgroundInstance.Name = "BackgroundInstance";
 			
 			
 			PostInitialize();
@@ -84,6 +87,7 @@ namespace Squeeze.Screens
 				
 				CreatureInstance.Activity();
 				FarseerPhysicsEntityInstance.Activity();
+				BackgroundInstance.Activity();
 			}
 			else
 			{
@@ -112,6 +116,10 @@ namespace Squeeze.Screens
 			{
 				FarseerPhysicsEntityInstance.Destroy();
 			}
+			if (BackgroundInstance != null)
+			{
+				BackgroundInstance.Destroy();
+			}
 
 			base.Destroy();
 
@@ -127,11 +135,13 @@ namespace Squeeze.Screens
 		{
 			CreatureInstance.AddToManagers(mLayer);
 			FarseerPhysicsEntityInstance.AddToManagers(mLayer);
+			BackgroundInstance.AddToManagers(mLayer);
 		}
 		public virtual void ConvertToManuallyUpdated ()
 		{
 			CreatureInstance.ConvertToManuallyUpdated();
 			FarseerPhysicsEntityInstance.ConvertToManuallyUpdated();
+			BackgroundInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -147,6 +157,7 @@ namespace Squeeze.Screens
 			#endif
 			Squeeze.Entities.Creature.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.FarseerPhysicsEntity.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.Level1Background.LoadStaticContent(contentManagerName);
 			CustomLoadStaticContent(contentManagerName);
 		}
 		object GetMember (string memberName)

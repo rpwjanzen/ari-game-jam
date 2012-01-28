@@ -22,6 +22,7 @@ using FlatRedBall.Broadcasting;
 using Squeeze.Entities;
 using Squeeze.Factories;
 using FlatRedBall;
+using FlatRedBall;
 
 #if XNA4
 using Color = Microsoft.Xna.Framework.Color;
@@ -41,7 +42,7 @@ using Model = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace Squeeze.Entities
 {
-	public partial class Creature : PositionedObject, IDestroyable
+	public partial class Level1Background : PositionedObject, IDestroyable
 	{
         // This is made global so that static lazy-loaded content can access it.
         public static string ContentManagerName
@@ -57,18 +58,20 @@ namespace Squeeze.Entities
 		static object mLockObject = new object();
 		static bool mHasRegisteredUnload = false;
 		static bool IsStaticContentLoaded = false;
+		private static Scene TestScene1;
 		
+		private Scene BackgroundScene;
 		public int Index { get; set; }
 		public bool Used { get; set; }
 		protected Layer LayerProvidedByContainer = null;
 
-        public Creature(string contentManagerName) :
+        public Level1Background(string contentManagerName) :
             this(contentManagerName, true)
         {
         }
 
 
-        public Creature(string contentManagerName, bool addToManagers) :
+        public Level1Background(string contentManagerName, bool addToManagers) :
 			base()
 		{
 			// Don't delete this:
@@ -81,6 +84,11 @@ namespace Squeeze.Entities
 		{
 			// Generated Initialize
 			LoadStaticContent(ContentManagerName);
+			BackgroundScene = TestScene1.Clone();
+			for (int i = 0; i < BackgroundScene.Texts.Count; i++)
+			{
+				BackgroundScene.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
+			}
 			
 			PostInitialize();
 			if (addToManagers)
@@ -105,6 +113,7 @@ namespace Squeeze.Entities
 			// Generated Activity
 			
 			CustomActivity();
+			BackgroundScene.ManageAll();
 			
 			// After Custom Activity
 		}
@@ -114,6 +123,10 @@ namespace Squeeze.Entities
 			// Generated Destroy
 			SpriteManager.RemovePositionedObject(this);
 			
+			if (BackgroundScene != null)
+			{
+				BackgroundScene.RemoveFromManagers(ContentManagerName != "Global");
+			}
 
 
 			CustomDestroy();
@@ -140,6 +153,8 @@ namespace Squeeze.Entities
 			RotationX = 0;
 			RotationY = 0;
 			RotationZ = 0;
+			BackgroundScene.AddToManagers(layerToAddTo);
+			BackgroundScene.AttachAllDetachedTo(this, true);
 			X = oldX;
 			Y = oldY;
 			Z = oldZ;
@@ -151,6 +166,7 @@ namespace Squeeze.Entities
 		{
 			this.ForceUpdateDependenciesDeep();
 			SpriteManager.ConvertToManuallyUpdated(this);
+			BackgroundScene.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -172,18 +188,23 @@ namespace Squeeze.Entities
 				{
 					if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 					{
-						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureStaticUnload", UnloadStaticContent);
+						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Level1BackgroundStaticUnload", UnloadStaticContent);
 						mHasRegisteredUnload = true;
 					}
 				}
 				bool registerUnload = false;
+				if (!FlatRedBallServices.IsLoaded<Scene>(@"content/entities/level1background/testscene1.scnx", ContentManagerName))
+				{
+					registerUnload = true;
+				}
+				TestScene1 = FlatRedBallServices.Load<Scene>(@"content/entities/level1background/testscene1.scnx", ContentManagerName);
 				if (registerUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 				{
 					lock (mLockObject)
 					{
 						if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 						{
-							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("CreatureStaticUnload", UnloadStaticContent);
+							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("Level1BackgroundStaticUnload", UnloadStaticContent);
 							mHasRegisteredUnload = true;
 						}
 					}
@@ -195,9 +216,29 @@ namespace Squeeze.Entities
 		{
 			IsStaticContentLoaded = false;
 			mHasRegisteredUnload = false;
+			if (TestScene1 != null)
+			{
+				TestScene1.RemoveFromManagers(ContentManagerName != "Global");
+				TestScene1= null;
+			}
+		}
+		public static object GetStaticMember (string memberName)
+		{
+			switch(memberName)
+			{
+				case  "TestScene1":
+					return TestScene1;
+			}
+			return null;
 		}
 		object GetMember (string memberName)
 		{
+			switch(memberName)
+			{
+				case  "TestScene1":
+					return TestScene1;
+					break;
+			}
 			return null;
 		}
 		protected bool mIsPaused;
@@ -209,13 +250,14 @@ namespace Squeeze.Entities
 		public virtual void SetToIgnorePausing ()
 		{
 			InstructionManager.IgnorePausingFor(this);
+			InstructionManager.IgnorePausingFor(BackgroundScene);
 		}
 
     }
 	
 	
 	// Extra classes
-	public static class CreatureExtensionMethods
+	public static class Level1BackgroundExtensionMethods
 	{
 	}
 	
