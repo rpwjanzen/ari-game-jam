@@ -52,6 +52,8 @@ namespace Squeeze.Entities
 		{
             m_world = FarseerPhysicsEntity.World;
 
+            this.Z = Settings.LayersByName[Settings.Layers.Rat];
+
             Body = PreyBehaviour.InitializePreyBody(m_world, preySize: 16, preyMass: 4);
 		}
 

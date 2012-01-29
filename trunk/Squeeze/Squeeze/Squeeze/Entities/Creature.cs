@@ -91,7 +91,11 @@ namespace Squeeze.Entities
 
         const float LinearDampening = 0.01f;
         const float Friction = 1f;
-        const float ForwardForce = 100;
+
+        const float FastForwardForce = 150;
+        const float NormalForwardForce = 150;
+        float ForwardForce = NormalForwardForce;
+        
         const float BackwardForce = 100;
         const float LateralForce = 100;
 
@@ -99,7 +103,8 @@ namespace Squeeze.Entities
 
         private PolygonShape GetBodyShape()
         {
-            var capsuleVertices = PolygonTools.CreateRectangle(HalfWidth, HalfHeight);
+            //var capsuleVertices = PolygonTools.CreateRectangle(HalfWidth, HalfHeight);
+            var capsuleVertices = PolygonTools.CreateCircle(HalfWidth, 8);
             var shape = new PolygonShape(capsuleVertices, Density);
             return shape;
         }
@@ -265,6 +270,11 @@ namespace Squeeze.Entities
         {
             bool isKeyPressed = false;
             var keyboard = InputManager.Keyboard;
+            if (keyboard.KeyDown(Keys.LeftShift))
+                ForwardForce = FastForwardForce;
+            else
+                ForwardForce = NormalForwardForce;
+
             if (keyboard.KeyDown(Keys.W))
             {
                 Transform t;
