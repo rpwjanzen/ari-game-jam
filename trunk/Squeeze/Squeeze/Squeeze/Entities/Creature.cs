@@ -271,6 +271,9 @@ namespace Squeeze.Entities
                 if (prey != null)
                 {
                     AddSegment();
+                    DeadPrey deadPrey = DeadPreyFactory.CreateNew();
+                    deadPrey.Position = prey.Position;
+                    deadPrey.RotationMatrix = prey.RotationMatrix;
                     prey.Destroy();
                     m_lastPreyKillTime = TimeManager.CurrentTime;
                 }
@@ -305,6 +308,9 @@ namespace Squeeze.Entities
 
             PositionedObjectList<CreatureTail> creatureTails= new PositionedObjectList<CreatureTail>();
             CreatureTailFactory.Initialize(creatureTails, contentManagerName);
+
+            //PositionedObjectList<DeadPrey> deadPrey=new PositionedObjectList<DeadPrey>();
+            //DeadPreyFactory.Initialize(deadPrey, contentManagerName);
         }
 
         public bool IsPointWithin(Vector2 point, List<Vector2> poly)
