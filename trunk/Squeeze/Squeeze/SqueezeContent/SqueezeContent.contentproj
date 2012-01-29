@@ -48,6 +48,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Entities\Armadillo\armadillo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>armadillo</Name>
+    </None>
+    <None Include="Entities\Armadillo\ArmadilloScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>ArmadilloScene</Name>
+    </None>
     <None Include="Entities\CreatureBody\BodyScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>BodyScene</Name>
@@ -128,6 +136,13 @@
   <ItemGroup>
     <Compile Include="Happy High Five.wav">
       <Name>Happy High Five</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SnakeBGMusic.wav">
+      <Name>SnakeBGMusic</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

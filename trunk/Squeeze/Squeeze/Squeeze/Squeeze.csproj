@@ -111,6 +111,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Armadillo.cs" />
+    <Compile Include="Entities\Armadillo.Generated.cs">
+      <DependentUpon>Armadillo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ArmadilloGenerator.cs" />
+    <Compile Include="Entities\ArmadilloGenerator.Generated.cs">
+      <DependentUpon>ArmadilloGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Creature.cs" />
     <Compile Include="Entities\Creature.Generated.cs">
       <DependentUpon>Creature.cs</DependentUpon>
@@ -147,6 +155,7 @@
     <Compile Include="Entities\PreyGenerator.Generated.cs">
       <DependentUpon>PreyGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factories\ArmadilloFactory.Generated.cs" />
     <Compile Include="Factories\CreatureBodyFactory.Generated.cs" />
     <Compile Include="Factories\CreatureHeadFactory.Generated.cs" />
     <Compile Include="Factories\CreatureTailFactory.Generated.cs" />
@@ -155,6 +164,7 @@
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IPoolable.Generated.cs" />
     <Compile Include="Performance\PoolList.Generated.cs" />
+    <Compile Include="PreyBehaviour.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

@@ -17,59 +17,51 @@ using GuiManager = FlatRedBall.Gui.GuiManager;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
+using FlatRedBall.Math;
 using FarseerPhysics.Dynamics;
-using FarseerPhysics.Collision.Shapes;
-using FarseerPhysics.Factories;
-using FarseerPhysics.Common;
-using Microsoft.Xna.Framework;
-using FarseerPhysics.Dynamics.Contacts;
+using Squeeze.Factories;
 
 
 #endif
 
 namespace Squeeze.Entities
 {
-	public partial class Prey
+	public partial class ArmadilloGenerator
 	{
-        public Body Body { get; private set; }
-
-        private World m_world;
-
-        private int m_angularVelocity = 0;
-
-        private Random m_random = new Random();
-
-        // do this so that pray which spawn at the same time have different seeds.
-        public void SetupRandomGenerator(int seed)
-        {
-            m_random = new Random(seed);
-        }
-
+        public static readonly PositionedObjectList<Armadillo> g_armadillo = new PositionedObjectList<Armadillo>();
+        private readonly Random m_random = new Random(382);
+        
 		private void CustomInitialize()
 		{
-            m_world = FarseerPhysicsEntity.World;
 
-            Body = PreyBehaviour.InitializePreyBody(m_world, 16, 20);
+
 		}
 
 		private void CustomActivity()
 		{
-            this.RotationMatrix = PreyBehaviour.MovePrey(
-                this,
-                Body, 
-                ref m_angularVelocity, 
-                m_random);
+            while (g_armadillo.Count < 10)
+            {
+                var armadillo = ArmadilloFactory.CreateNew();
+                armadillo.SetupRandomGenerator(m_random.Next(int.MaxValue));
+                int x = m_random.Next(0 + 64, 800 - 64);
+                int y = m_random.Next(-600 - 64, -(0 + 64));
+
+                armadillo.Body.Position = new Microsoft.Xna.Framework.Vector2(x, y);
+            }
+
+            foreach (var prey in g_armadillo)
+                prey.Activity();
 		}
 
 		private void CustomDestroy()
 		{
-		    this.m_world.RemoveBody(this.Body);
+
+
 		}
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-
-
+            ArmadilloFactory.Initialize(g_armadillo, contentManagerName);
         }
 	}
 }

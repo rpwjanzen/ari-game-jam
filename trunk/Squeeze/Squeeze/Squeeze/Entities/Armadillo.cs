@@ -18,19 +18,18 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FarseerPhysics.Dynamics;
-using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Common;
 using Microsoft.Xna.Framework;
-using FarseerPhysics.Dynamics.Contacts;
 
 
 #endif
 
 namespace Squeeze.Entities
 {
-	public partial class Prey
+	public partial class Armadillo
 	{
+
         public Body Body { get; private set; }
 
         private World m_world;
@@ -46,24 +45,24 @@ namespace Squeeze.Entities
         }
 
 		private void CustomInitialize()
-		{
+        {
             m_world = FarseerPhysicsEntity.World;
 
-            Body = PreyBehaviour.InitializePreyBody(m_world, 16, 20);
-		}
+		    Body = PreyBehaviour.InitializePreyBody(m_world, 32, 20);
+        }
 
 		private void CustomActivity()
 		{
             this.RotationMatrix = PreyBehaviour.MovePrey(
                 this,
-                Body, 
-                ref m_angularVelocity, 
+                Body,
+                ref m_angularVelocity,
                 m_random);
 		}
 
 		private void CustomDestroy()
-		{
-		    this.m_world.RemoveBody(this.Body);
+        {
+            this.m_world.RemoveBody(this.Body);
 		}
 
         private static void CustomLoadStaticContent(string contentManagerName)
