@@ -203,6 +203,16 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="SnakeSqueeze_icon1.png">
+      <Name>SnakeSqueeze_icon1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SnakeSqueeze_icon2.png">
+      <Name>SnakeSqueeze_icon2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SnakeBGMusic.wav">
