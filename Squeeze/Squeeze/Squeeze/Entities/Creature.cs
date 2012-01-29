@@ -353,8 +353,26 @@ namespace Squeeze.Entities
                     if (armadillo != null)
                     {
                         AddSegment();
+                        DeadArmadillo deadArmadillo = DeadArmadilloFactory.CreateNew();
+                        deadArmadillo.Position = armadillo.Position;
+                        deadArmadillo.RotationMatrix = armadillo.RotationMatrix;
                         armadillo.Destroy();
                         m_lastPreyKillTime = TimeManager.CurrentTime;
+                    }
+                    else
+                    {
+                        var buffalo = BufalloGenerator.g_buffalo.FirstOrDefault(
+                                            p => IsPointWithin(new Vector2(p.Position.X, p.Position.Y), snakePolygonPoints));
+
+                        if (buffalo != null)
+                        {
+                            AddSegment();
+                            DeadBuffalo deadBuffalo = DeadBuffaloFactory.CreateNew();
+                            deadBuffalo.Position = buffalo.Position;
+                            deadBuffalo.RotationMatrix = buffalo.RotationMatrix;
+                            buffalo.Destroy();
+                            m_lastPreyKillTime = TimeManager.CurrentTime;
+                        }
                     }
                 }
             }    
@@ -378,6 +396,13 @@ namespace Squeeze.Entities
             foreach (Armadillo armadillo in armadillos)
             {
                 MovePositionedObjectCloser(armadillo.Body);
+            }
+
+            var buffalos = BufalloGenerator.g_buffalo.Where(r => (r.Position - Centroid).Length() > MOVE_PREY_CLOSER_TRIGGER_DISTANCE);
+
+            foreach (Buffalo buffalo in buffalos)
+            {
+                MovePositionedObjectCloser(buffalo.Body);
             }
             
         }

@@ -119,6 +119,14 @@
     <Compile Include="Entities\ArmadilloGenerator.Generated.cs">
       <DependentUpon>ArmadilloGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\BufalloGenerator.cs" />
+    <Compile Include="Entities\BufalloGenerator.Generated.cs">
+      <DependentUpon>BufalloGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\Buffalo.cs" />
+    <Compile Include="Entities\Buffalo.Generated.cs">
+      <DependentUpon>Buffalo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Creature.cs" />
     <Compile Include="Entities\Creature.Generated.cs">
       <DependentUpon>Creature.cs</DependentUpon>
@@ -134,6 +142,22 @@
     <Compile Include="Entities\CreatureTail.cs" />
     <Compile Include="Entities\CreatureTail.Generated.cs">
       <DependentUpon>CreatureTail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DeadArmadillo.cs" />
+    <Compile Include="Entities\DeadArmadillo.Generated.cs">
+      <DependentUpon>DeadArmadillo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DeadArmadilloGenerator.cs" />
+    <Compile Include="Entities\DeadArmadilloGenerator.Generated.cs">
+      <DependentUpon>DeadArmadilloGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DeadBuffalo.cs" />
+    <Compile Include="Entities\DeadBuffalo.Generated.cs">
+      <DependentUpon>DeadBuffalo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DeadBuffaloGenerator.cs" />
+    <Compile Include="Entities\DeadBuffaloGenerator.Generated.cs">
+      <DependentUpon>DeadBuffaloGenerator.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\DeadPrey.cs" />
     <Compile Include="Entities\DeadPrey.Generated.cs">
@@ -185,9 +209,12 @@
     <Compile Include="Entities\TreeZero.Generated.cs">
       <DependentUpon>TreeZero.cs</DependentUpon>
     </Compile>
+    <Compile Include="Factories\BuffaloFactory.Generated.cs" />
     <Compile Include="Factories\CreatureBodyFactory.Generated.cs" />
     <Compile Include="Factories\CreatureHeadFactory.Generated.cs" />
     <Compile Include="Factories\CreatureTailFactory.Generated.cs" />
+    <Compile Include="Factories\DeadArmadilloFactory.Generated.cs" />
+    <Compile Include="Factories\DeadBuffaloFactory.Generated.cs" />
     <Compile Include="Factories\DeadPreyFactory.Generated.cs" />
     <Compile Include="Factories\LogFactory.Generated.cs" />
     <Compile Include="Factories\PreyFactory.Generated.cs" />

@@ -17,29 +17,26 @@ using GuiManager = FlatRedBall.Gui.GuiManager;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
-using FlatRedBall.Math;
-using Squeeze.Factories;
 
 
 #endif
 
 namespace Squeeze.Entities
 {
-	public partial class DeadPreyGenerator
-	{
-
-        public static readonly PositionedObjectList<DeadPrey> g_prey = new PositionedObjectList<DeadPrey>();
+	public partial class DeadArmadillo
+    {
+        private double m_spawnTime = 0;
+        private const double DEATH_DISPLAY_TIME = 1;
 
 		private void CustomInitialize()
 		{
-
-
+            m_spawnTime = TimeManager.CurrentTime;
 		}
 
 		private void CustomActivity()
 		{
-            foreach (var prey in g_prey)
-                prey.Activity();
+            if (m_spawnTime + DEATH_DISPLAY_TIME < TimeManager.CurrentTime)
+                this.Destroy();
 		}
 
 		private void CustomDestroy()
@@ -50,7 +47,8 @@ namespace Squeeze.Entities
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-            DeadPreyFactory.Initialize(g_prey, contentManagerName);
+
+
         }
 	}
 }

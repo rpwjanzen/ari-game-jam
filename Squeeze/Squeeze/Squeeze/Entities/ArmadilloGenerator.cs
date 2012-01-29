@@ -39,7 +39,7 @@ namespace Squeeze.Entities
 
 		private void CustomActivity()
 		{
-            while (g_armadillo.Count < 6)
+            while (g_armadillo.Count < 2)
             {
                 var armadillo = ArmadilloFactory.CreateNew();
                 armadillo.SetupRandomGenerator(m_random.Next(int.MaxValue));

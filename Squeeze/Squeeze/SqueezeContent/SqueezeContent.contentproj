@@ -56,6 +56,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>ArmadilloScene</Name>
     </None>
+    <None Include="Entities\Buffalo\buffalo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buffalo</Name>
+    </None>
+    <None Include="Entities\Buffalo\BuffaloScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>BuffaloScene</Name>
+    </None>
     <None Include="Entities\CreatureBody\BodyScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>BodyScene</Name>
@@ -91,6 +99,22 @@
     <None Include="Entities\CreatureTail\TailScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TailScene</Name>
+    </None>
+    <None Include="Entities\DeadArmadillo\armadillo_explode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>armadillo_explode</Name>
+    </None>
+    <None Include="Entities\DeadArmadillo\DeadArmadilloScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>DeadArmadilloScene</Name>
+    </None>
+    <None Include="Entities\DeadBuffalo\buffalo_explode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>buffalo_explode</Name>
+    </None>
+    <None Include="Entities\DeadBuffalo\DeadBuffaloScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>DeadBuffaloScene</Name>
     </None>
     <None Include="Entities\DeadPrey\DeadPreyScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
