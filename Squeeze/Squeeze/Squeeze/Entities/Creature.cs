@@ -269,6 +269,18 @@ namespace Squeeze.Entities
                     prey.Destroy();
                     m_lastPreyKillTime = TimeManager.CurrentTime;
                 }
+                else
+                {
+                    var armadillo = ArmadilloGenerator.g_armadillo.FirstOrDefault(
+                                        p => IsPointWithin(new Vector2(p.Position.X, p.Position.Y), snakePolygonPoints));
+
+                    if (armadillo != null)
+                    {
+                        AddSegment();
+                        armadillo.Destroy();
+                        m_lastPreyKillTime = TimeManager.CurrentTime;
+                    }
+                }
             }
 		}
 
