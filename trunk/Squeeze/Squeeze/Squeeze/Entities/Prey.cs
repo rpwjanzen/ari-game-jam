@@ -58,12 +58,8 @@ namespace Squeeze.Entities
             body.LinearDamping = 0.15f;
             body.AngularDamping = 0.15f;
 
-            var rectangleVertices = PolygonTools.CreateRectangle(32f, 32f, Vector2.Zero, 0);
-            var shape = new PolygonShape(rectangleVertices, 1f);
-            body.CreateFixture(shape);
+            body.Mass = 100;
             Body = body;
-
-		    //Body.Rotation = (float)(m_random.Next(0, 360) * Math.PI / 180);
 		}
 
 		private void CustomActivity()
