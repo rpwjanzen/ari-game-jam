@@ -70,7 +70,7 @@ namespace Squeeze.Entities
 	    {
             get { return new Vector2(Centroid.X, Centroid.Y); }
 	    }
-        const int InitialSegmentCount = 20;
+        const int InitialSegmentCount = 40;
         const float HalfHeight = 10f / 2f;
         const float HalfWidth = 15f / 2f;
 
@@ -80,17 +80,19 @@ namespace Squeeze.Entities
         const float DampeningRatio = 0;
         const float MinLength = 1;
         const float MaxLength = 1;
-        //const float m_segmentMass = 150;
 
-        const float LinearDampening = 0.005f;
+        const float LinearDampening = 0.01f;
+        const float Friction = 1f;
         const float ForwardForce = 100;
         const float BackwardForce = 100;
         const float LateralForce = 100;
 
+        const float Density = 1;
+
         private PolygonShape GetBodyShape()
         {
             var capsuleVertices = PolygonTools.CreateRectangle(HalfWidth, HalfHeight);
-            var shape = new PolygonShape(capsuleVertices, 1f);
+            var shape = new PolygonShape(capsuleVertices, Density);
             return shape;
         }
 
@@ -128,6 +130,7 @@ namespace Squeeze.Entities
             headBody.Position = new Vector2(0, (InitialSegmentCount + 1) * -HalfHeight) + startingOffset;
             headBody.LinearDamping = LinearDampening;
             headBody.Restitution = BodyRestitution;
+            headBody.Friction = Friction;
 
             m_creatureHead = CreatureHeadFactory.CreateNew();
             m_creatureHead.Body = headBody;
@@ -143,6 +146,7 @@ namespace Squeeze.Entities
                 body.Position += startingOffset;
                 body.LinearDamping = LinearDampening;
                 body.Restitution = BodyRestitution;
+                body.Friction = Friction;
             }
 
             // set bodies to body segments
@@ -186,6 +190,7 @@ namespace Squeeze.Entities
             body.CreateFixture(GetBodyShape());
             body.LinearDamping = LinearDampening;
             body.Restitution = BodyRestitution;
+            body.Friction = Friction;
 
             var newSegment = CreatureBodyFactory.CreateNew();
             newSegment.Body = body;
@@ -249,7 +254,7 @@ namespace Squeeze.Entities
                 var absoluteForward = rotationMatrix.Solve(localForward);
                 m_creatureHead.Body.ApplyForce(absoluteForward * ForwardForce);
 
-                //ApplyForceToSomeSegments(forwardForce, localForward);
+                ApplyForceToSomeSegments(ForwardForce, localForward);
 
                 isKeyPressed = true;
             }
@@ -263,7 +268,7 @@ namespace Squeeze.Entities
                 var absoluteBackward = rotationMatrix.Solve(localBackward);
                 m_creatureHead.Body.ApplyForce(absoluteBackward * BackwardForce);
 
-                //ApplyForceToSomeSegments(backwardForce, localBackward);
+                ApplyForceToSomeSegments(BackwardForce, localBackward);
 
                 isKeyPressed = true;
             }
@@ -279,7 +284,7 @@ namespace Squeeze.Entities
                 var absoluteLeft = rotationMatrix.Solve(localLeft);
                 m_creatureHead.Body.ApplyForce(absoluteLeft * LateralForce);
 
-                //ApplyForceToSomeSegments(lateralForce, localLeft);
+                //ApplyForceToSomeSegments(LateralForce, localLeft);
 
                 isKeyPressed = true;
             }
@@ -293,17 +298,17 @@ namespace Squeeze.Entities
                 var absoluteRight = rotationMatrix.Solve(localRight);
                 m_creatureHead.Body.ApplyForce(absoluteRight * LateralForce);
 
-                //ApplyForceToSomeSegments(lateralForce, localRight);
+                //ApplyForceToSomeSegments(LateralForce, localRight);
 
                 isKeyPressed = true;
             }
 
             if (!isKeyPressed)
             {
-                m_creatureHead.Body.ResetDynamics();
-                foreach (var body in m_creatureBodySegments)
-                    body.Body.ResetDynamics();
-                m_creatureTail.Body.ResetDynamics();
+                //m_creatureHead.Body.ResetDynamics();
+                //foreach (var body in m_creatureBodySegments)
+                //    body.Body.ResetDynamics();
+                //m_creatureTail.Body.ResetDynamics();
             }
         }
 
@@ -431,7 +436,7 @@ namespace Squeeze.Entities
 
         private void ApplyForceToSomeSegments(float forceAmount, Vector2 localDirection)
         {
-            for (int i = 0; i < m_creatureBodySegments.Count; i += 4)
+            for (int i = 0; i < m_creatureBodySegments.Count; i += 1)
             {
                 Transform t;
                 
