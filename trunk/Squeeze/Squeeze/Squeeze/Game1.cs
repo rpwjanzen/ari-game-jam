@@ -35,12 +35,18 @@ namespace Squeeze
 			BackStack<string> bs = new BackStack<string>();
 			bs.Current = string.Empty;
 
+            this.IsMouseVisible = true;
+        }
+
+        protected override void LoadContent()
+        {
             DebugViewXNA = new DebugViewXNA(World);
             DebugViewXNA.AppendFlags(DebugViewFlags.DebugPanel);
             DebugViewXNA.DefaultShapeColor = Color.White;
             DebugViewXNA.SleepingShapeColor = Color.LightGray;
-
-            this.IsMouseVisible = true;
+            DebugViewXNA.LoadContent(GraphicsDevice, Content);
+            
+            base.LoadContent();
         }
 
         protected override void Initialize()
@@ -51,7 +57,7 @@ namespace Squeeze
 
 			Screens.ScreenManager.Start(typeof(Squeeze.Screens.GameScreen).FullName);
 
-            DebugViewXNA.LoadContent(graphics.GraphicsDevice, Content);
+            //DebugViewXNA.LoadContent(graphics.GraphicsDevice, Content);
 
             base.Initialize();
         }
@@ -68,6 +74,12 @@ namespace Squeeze
         protected override void Draw(GameTime gameTime)
         {
             FlatRedBallServices.Draw();
+
+            // calculate the projection and view adjustments for the debug view
+            Matrix projection = Matrix.CreateOrthographic(graphics.GraphicsDevice.Viewport.Width,
+                                                             graphics.GraphicsDevice.Viewport.Height, 0.01f, 100f);
+            // draw the debug view
+            DebugViewXNA.RenderDebugData(ref projection);
 
             base.Draw(gameTime);
         }
