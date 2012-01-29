@@ -18,11 +18,9 @@ using Matrix = Microsoft.Xna.Framework.Matrix;
 using FlatRedBall;
 using FlatRedBall.Graphics;
 using FlatRedBall.Math;
-using Squeeze.Performance;
 using FlatRedBall.Broadcasting;
 using Squeeze.Entities;
 using Squeeze.Factories;
-using FlatRedBall;
 using FlatRedBall;
 
 #if XNA4
@@ -43,7 +41,7 @@ using Model = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace Squeeze.Entities
 {
-	public partial class Log : PositionedObject, IDestroyable, IPoolable
+	public partial class DoodadGenerator : PositionedObject, IDestroyable
 	{
         // This is made global so that static lazy-loaded content can access it.
         public static string ContentManagerName
@@ -59,20 +57,18 @@ namespace Squeeze.Entities
 		static object mLockObject = new object();
 		static bool mHasRegisteredUnload = false;
 		static bool IsStaticContentLoaded = false;
-		private static Scene LogScene;
 		
-		private Scene EntireScene;
 		public int Index { get; set; }
 		public bool Used { get; set; }
 		protected Layer LayerProvidedByContainer = null;
 
-        public Log(string contentManagerName) :
+        public DoodadGenerator(string contentManagerName) :
             this(contentManagerName, true)
         {
         }
 
 
-        public Log(string contentManagerName, bool addToManagers) :
+        public DoodadGenerator(string contentManagerName, bool addToManagers) :
 			base()
 		{
 			// Don't delete this:
@@ -85,11 +81,6 @@ namespace Squeeze.Entities
 		{
 			// Generated Initialize
 			LoadStaticContent(ContentManagerName);
-			EntireScene = LogScene.Clone();
-			for (int i = 0; i < EntireScene.Texts.Count; i++)
-			{
-				EntireScene.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
-			}
 			
 			PostInitialize();
 			if (addToManagers)
@@ -114,7 +105,6 @@ namespace Squeeze.Entities
 			// Generated Activity
 			
 			CustomActivity();
-			EntireScene.ManageAll();
 			
 			// After Custom Activity
 		}
@@ -123,15 +113,7 @@ namespace Squeeze.Entities
 		{
 			// Generated Destroy
 			SpriteManager.RemovePositionedObject(this);
-			if (Used)
-			{
-				LogFactory.MakeUnused(this, false);
-			}
 			
-			if (EntireScene != null)
-			{
-				EntireScene.RemoveFromManagers(false);
-			}
 
 
 			CustomDestroy();
@@ -158,8 +140,6 @@ namespace Squeeze.Entities
 			RotationX = 0;
 			RotationY = 0;
 			RotationZ = 0;
-			EntireScene.AddToManagers(layerToAddTo);
-			EntireScene.AttachAllDetachedTo(this, true);
 			X = oldX;
 			Y = oldY;
 			Z = oldZ;
@@ -171,7 +151,6 @@ namespace Squeeze.Entities
 		{
 			this.ForceUpdateDependenciesDeep();
 			SpriteManager.ConvertToManuallyUpdated(this);
-			EntireScene.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -193,23 +172,18 @@ namespace Squeeze.Entities
 				{
 					if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 					{
-						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("LogStaticUnload", UnloadStaticContent);
+						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("DoodadGeneratorStaticUnload", UnloadStaticContent);
 						mHasRegisteredUnload = true;
 					}
 				}
 				bool registerUnload = false;
-				if (!FlatRedBallServices.IsLoaded<Scene>(@"content/entities/log/logscene.scnx", ContentManagerName))
-				{
-					registerUnload = true;
-				}
-				LogScene = FlatRedBallServices.Load<Scene>(@"content/entities/log/logscene.scnx", ContentManagerName);
 				if (registerUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 				{
 					lock (mLockObject)
 					{
 						if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 						{
-							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("LogStaticUnload", UnloadStaticContent);
+							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("DoodadGeneratorStaticUnload", UnloadStaticContent);
 							mHasRegisteredUnload = true;
 						}
 					}
@@ -221,29 +195,9 @@ namespace Squeeze.Entities
 		{
 			IsStaticContentLoaded = false;
 			mHasRegisteredUnload = false;
-			if (LogScene != null)
-			{
-				LogScene.RemoveFromManagers(ContentManagerName != "Global");
-				LogScene= null;
-			}
-		}
-		public static object GetStaticMember (string memberName)
-		{
-			switch(memberName)
-			{
-				case  "LogScene":
-					return LogScene;
-			}
-			return null;
 		}
 		object GetMember (string memberName)
 		{
-			switch(memberName)
-			{
-				case  "LogScene":
-					return LogScene;
-					break;
-			}
 			return null;
 		}
 		protected bool mIsPaused;
@@ -255,14 +209,13 @@ namespace Squeeze.Entities
 		public virtual void SetToIgnorePausing ()
 		{
 			InstructionManager.IgnorePausingFor(this);
-			InstructionManager.IgnorePausingFor(EntireScene);
 		}
 
     }
 	
 	
 	// Extra classes
-	public static class LogExtensionMethods
+	public static class DoodadGeneratorExtensionMethods
 	{
 	}
 	

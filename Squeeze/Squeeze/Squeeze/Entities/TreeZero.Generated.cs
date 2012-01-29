@@ -43,7 +43,7 @@ using Model = Microsoft.Xna.Framework.Graphics.Model;
 
 namespace Squeeze.Entities
 {
-	public partial class Log : PositionedObject, IDestroyable, IPoolable
+	public partial class TreeZero : PositionedObject, IDestroyable, IPoolable
 	{
         // This is made global so that static lazy-loaded content can access it.
         public static string ContentManagerName
@@ -59,20 +59,20 @@ namespace Squeeze.Entities
 		static object mLockObject = new object();
 		static bool mHasRegisteredUnload = false;
 		static bool IsStaticContentLoaded = false;
-		private static Scene LogScene;
+		private static Scene TreeZeroScene;
 		
 		private Scene EntireScene;
 		public int Index { get; set; }
 		public bool Used { get; set; }
 		protected Layer LayerProvidedByContainer = null;
 
-        public Log(string contentManagerName) :
+        public TreeZero(string contentManagerName) :
             this(contentManagerName, true)
         {
         }
 
 
-        public Log(string contentManagerName, bool addToManagers) :
+        public TreeZero(string contentManagerName, bool addToManagers) :
 			base()
 		{
 			// Don't delete this:
@@ -85,7 +85,7 @@ namespace Squeeze.Entities
 		{
 			// Generated Initialize
 			LoadStaticContent(ContentManagerName);
-			EntireScene = LogScene.Clone();
+			EntireScene = TreeZeroScene.Clone();
 			for (int i = 0; i < EntireScene.Texts.Count; i++)
 			{
 				EntireScene.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
@@ -125,7 +125,7 @@ namespace Squeeze.Entities
 			SpriteManager.RemovePositionedObject(this);
 			if (Used)
 			{
-				LogFactory.MakeUnused(this, false);
+				TreeZeroFactory.MakeUnused(this, false);
 			}
 			
 			if (EntireScene != null)
@@ -193,23 +193,23 @@ namespace Squeeze.Entities
 				{
 					if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 					{
-						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("LogStaticUnload", UnloadStaticContent);
+						FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("TreeZeroStaticUnload", UnloadStaticContent);
 						mHasRegisteredUnload = true;
 					}
 				}
 				bool registerUnload = false;
-				if (!FlatRedBallServices.IsLoaded<Scene>(@"content/entities/log/logscene.scnx", ContentManagerName))
+				if (!FlatRedBallServices.IsLoaded<Scene>(@"content/entities/treezero/treezeroscene.scnx", ContentManagerName))
 				{
 					registerUnload = true;
 				}
-				LogScene = FlatRedBallServices.Load<Scene>(@"content/entities/log/logscene.scnx", ContentManagerName);
+				TreeZeroScene = FlatRedBallServices.Load<Scene>(@"content/entities/treezero/treezeroscene.scnx", ContentManagerName);
 				if (registerUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 				{
 					lock (mLockObject)
 					{
 						if (!mHasRegisteredUnload && ContentManagerName != FlatRedBallServices.GlobalContentManager)
 						{
-							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("LogStaticUnload", UnloadStaticContent);
+							FlatRedBallServices.GetContentManagerByName(ContentManagerName).AddUnloadMethod("TreeZeroStaticUnload", UnloadStaticContent);
 							mHasRegisteredUnload = true;
 						}
 					}
@@ -221,18 +221,18 @@ namespace Squeeze.Entities
 		{
 			IsStaticContentLoaded = false;
 			mHasRegisteredUnload = false;
-			if (LogScene != null)
+			if (TreeZeroScene != null)
 			{
-				LogScene.RemoveFromManagers(ContentManagerName != "Global");
-				LogScene= null;
+				TreeZeroScene.RemoveFromManagers(ContentManagerName != "Global");
+				TreeZeroScene= null;
 			}
 		}
 		public static object GetStaticMember (string memberName)
 		{
 			switch(memberName)
 			{
-				case  "LogScene":
-					return LogScene;
+				case  "TreeZeroScene":
+					return TreeZeroScene;
 			}
 			return null;
 		}
@@ -240,8 +240,8 @@ namespace Squeeze.Entities
 		{
 			switch(memberName)
 			{
-				case  "LogScene":
-					return LogScene;
+				case  "TreeZeroScene":
+					return TreeZeroScene;
 					break;
 			}
 			return null;
@@ -262,7 +262,7 @@ namespace Squeeze.Entities
 	
 	
 	// Extra classes
-	public static class LogExtensionMethods
+	public static class TreeZeroExtensionMethods
 	{
 	}
 	
