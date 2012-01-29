@@ -26,8 +26,11 @@ namespace Squeeze
         public static World World = new World(Vector2.Zero);
         public static DebugViewXNA DebugViewXNA;
 
+        private static SoundEffectInstance m_backgroundMusic;
+
         public Game1()
         {
+
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferHeight = 600;
             Content.RootDirectory = "Content";
@@ -41,11 +44,24 @@ namespace Squeeze
         protected override void LoadContent()
         {
             DebugViewXNA = new DebugViewXNA(World);
-            DebugViewXNA.AppendFlags(DebugViewFlags.DebugPanel);
+            //DebugViewXNA.AppendFlags(DebugViewFlags.DebugPanel);
+            DebugViewXNA.AppendFlags(DebugViewFlags.Shape);
+            //DebugViewXNA.AppendFlags(DebugViewFlags.DebugPanel);
+            //DebugViewXNA.AppendFlags(DebugViewFlags.PerformanceGraph);
+            DebugViewXNA.AppendFlags(DebugViewFlags.Joint);
+            DebugViewXNA.AppendFlags(DebugViewFlags.ContactPoints);
+            DebugViewXNA.AppendFlags(DebugViewFlags.ContactNormals);
+            DebugViewXNA.AppendFlags(DebugViewFlags.Controllers);
+            DebugViewXNA.AppendFlags(DebugViewFlags.CenterOfMass);
+            DebugViewXNA.AppendFlags(DebugViewFlags.AABB);
             DebugViewXNA.DefaultShapeColor = Color.White;
             DebugViewXNA.SleepingShapeColor = Color.LightGray;
             DebugViewXNA.LoadContent(GraphicsDevice, Content);
-            
+
+            SoundEffect _backgroundMusicSoundEffect = FlatRedBallServices.Load<SoundEffect>("Content\\Happy High Five");
+            m_backgroundMusic = _backgroundMusicSoundEffect.CreateInstance();
+            m_backgroundMusic.Play();
+
             base.LoadContent();
         }
 
@@ -62,6 +78,7 @@ namespace Squeeze
 
         protected override void Update(GameTime gameTime)
         {
+            m_backgroundMusic.Play();
             FlatRedBallServices.Update(gameTime);
 
             ScreenManager.Activity();
