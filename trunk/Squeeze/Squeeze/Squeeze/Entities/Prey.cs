@@ -53,12 +53,12 @@ namespace Squeeze.Entities
 		{
             m_world = FarseerPhysicsEntity.World;
 
-            var body = BodyFactory.CreateRectangle(m_world, 32, 32, 1);
+            var body = BodyFactory.CreateCircle(m_world, 16, 1);
             body.BodyType = BodyType.Dynamic;
             body.LinearDamping = 0.15f;
             body.AngularDamping = 0.15f;
 
-            body.Mass = 100;
+            body.Mass = 20;
             Body = body;
 		}
 
@@ -91,7 +91,24 @@ namespace Squeeze.Entities
                 m_angularVelocity = MIN_ANGULAR_VELOCITY;
 
             Body.ApplyForce(left * m_angularVelocity);
+
+            SetRotation();
 		}
+
+        /// <summary>
+        /// Rotate visible representation to match direction of current velocity
+        /// </summary>
+        private void SetRotation()
+        {
+            var velocity = this.Body.LinearVelocity;
+            if (velocity.LengthSquared() > 1 * 1)
+            {
+                velocity.Normalize();
+                var rotation = (float)Math.Atan2(velocity.Y, velocity.X) + MathHelper.PiOver2;
+
+                this.RotationMatrix = Matrix.CreateRotationZ(rotation);
+            }
+        }
 
 		private void CustomDestroy()
 		{
