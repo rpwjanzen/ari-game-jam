@@ -22,6 +22,8 @@ using Microsoft.Xna.Framework;
 using FarseerPhysics.Factories;
 using FarseerPhysics;
 using FarseerPhysics.DebugViews;
+using FarseerPhysics.Common;
+using FarseerPhysics.Collision.Shapes;
 
 
 #endif
@@ -36,7 +38,34 @@ namespace Squeeze.Entities
 
         private void CustomInitialize()
         {
+            float levelWidth = 3200f;
+            float levelHeight = 9600;
+            float borderWidth = 50f;
 
+            // create the border around the world
+            var leftBorder = new Body(World);
+            leftBorder.BodyType = BodyType.Static;
+            var leftRectangleVertices = PolygonTools.CreateRectangle(borderWidth, levelHeight / 2f);
+            leftBorder.CreateFixture(new PolygonShape(leftRectangleVertices, 1));
+            leftBorder.Position = new Vector2(0, -levelHeight / 2f);
+
+            var rightBorder = new Body(World);
+            rightBorder.BodyType = BodyType.Static;
+            var rightRectangleVertices = PolygonTools.CreateRectangle(borderWidth, levelHeight / 2f);
+            rightBorder.CreateFixture(new PolygonShape(rightRectangleVertices, 1));
+            rightBorder.Position = new Vector2(levelWidth, -levelHeight / 2f);
+
+            var topBorder = new Body(World);
+            topBorder.BodyType = BodyType.Static;
+            var topRectangleVertices = PolygonTools.CreateRectangle(levelWidth / 2f, borderWidth);
+            topBorder.CreateFixture(new PolygonShape(topRectangleVertices, 1));
+            topBorder.Position = new Vector2(levelWidth / 2f, 0);
+
+            var bottomBorder = new Body(World);
+            bottomBorder.BodyType = BodyType.Static;
+            var bottomRectangleVertices = PolygonTools.CreateRectangle(levelWidth / 2f, borderWidth);
+            bottomBorder.CreateFixture(new PolygonShape(bottomRectangleVertices, 1));
+            bottomBorder.Position = new Vector2(levelWidth / 2f, -levelHeight);
         }
 
 		private void CustomActivity()

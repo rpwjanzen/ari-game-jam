@@ -45,7 +45,7 @@ namespace Squeeze.Entities
                 prey.SetupRandomGenerator(m_random.Next(int.MaxValue));
                 prey.HeadBody = HeadBody;
                 int x = m_random.Next(0 + 64, 800 - 64);
-                int y = m_random.Next(0 + 64, 600 - 64);
+                int y = m_random.Next(-600 - 64 , - (0 + 64));
 
                 prey.Body.Position = new Microsoft.Xna.Framework.Vector2(x, y);
             }
