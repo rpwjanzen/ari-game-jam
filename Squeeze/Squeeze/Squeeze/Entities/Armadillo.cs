@@ -38,6 +38,9 @@ namespace Squeeze.Entities
 
         private Random m_random = new Random();
 
+        // We keep a positional history and then try to get guys moving which are stuck.
+        private Queue<Tuple<double, Vector2>> PositionalHistory = new Queue<Tuple<double, Vector2>>();
+
         // do this so that pray which spawn at the same time have different seeds.
         public void SetupRandomGenerator(int seed)
         {
@@ -61,6 +64,8 @@ namespace Squeeze.Entities
 
             if (newRotationMatrix != null)
                 this.RotationMatrix = (Matrix)newRotationMatrix;
+
+            PreyBehaviour.ForceMoveIfStuck(PositionalHistory, Body);
 		}
 
 		private void CustomDestroy()
