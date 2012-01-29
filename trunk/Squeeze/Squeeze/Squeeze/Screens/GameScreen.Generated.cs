@@ -49,6 +49,9 @@ namespace Squeeze.Screens
 		private Squeeze.Entities.ArmadilloGenerator ArmadilloGeneratorInstance;
 		private Squeeze.Entities.DoodadGenerator DoodadGeneratorInstance;
 		private Squeeze.Entities.DeadPreyGenerator DeadPreyGeneratorInstance;
+		private Squeeze.Entities.BufalloGenerator BuffaloGeneratorInstance;
+		private Squeeze.Entities.DeadArmadilloGenerator DeadArmadilloGeneratorInstance;
+		private Squeeze.Entities.DeadBuffaloGenerator DeadBuffaloGeneratorInstance;
 
 		public GameScreen()
 			: base("GameScreen")
@@ -77,6 +80,12 @@ namespace Squeeze.Screens
 			DoodadGeneratorInstance.Name = "DoodadGeneratorInstance";
 			DeadPreyGeneratorInstance = new Squeeze.Entities.DeadPreyGenerator(ContentManagerName, false);
 			DeadPreyGeneratorInstance.Name = "DeadPreyGeneratorInstance";
+			BuffaloGeneratorInstance = new Squeeze.Entities.BufalloGenerator(ContentManagerName, false);
+			BuffaloGeneratorInstance.Name = "BuffaloGeneratorInstance";
+			DeadArmadilloGeneratorInstance = new Squeeze.Entities.DeadArmadilloGenerator(ContentManagerName, false);
+			DeadArmadilloGeneratorInstance.Name = "DeadArmadilloGeneratorInstance";
+			DeadBuffaloGeneratorInstance = new Squeeze.Entities.DeadBuffaloGenerator(ContentManagerName, false);
+			DeadBuffaloGeneratorInstance.Name = "DeadBuffaloGeneratorInstance";
 			
 			
 			PostInitialize();
@@ -109,6 +118,9 @@ namespace Squeeze.Screens
 				ArmadilloGeneratorInstance.Activity();
 				DoodadGeneratorInstance.Activity();
 				DeadPreyGeneratorInstance.Activity();
+				BuffaloGeneratorInstance.Activity();
+				DeadArmadilloGeneratorInstance.Activity();
+				DeadBuffaloGeneratorInstance.Activity();
 			}
 			else
 			{
@@ -166,6 +178,18 @@ namespace Squeeze.Screens
 			{
 				DeadPreyGeneratorInstance.Destroy();
 			}
+			if (BuffaloGeneratorInstance != null)
+			{
+				BuffaloGeneratorInstance.Destroy();
+			}
+			if (DeadArmadilloGeneratorInstance != null)
+			{
+				DeadArmadilloGeneratorInstance.Destroy();
+			}
+			if (DeadBuffaloGeneratorInstance != null)
+			{
+				DeadBuffaloGeneratorInstance.Destroy();
+			}
 
 			base.Destroy();
 
@@ -187,6 +211,9 @@ namespace Squeeze.Screens
 			ArmadilloGeneratorInstance.AddToManagers(mLayer);
 			DoodadGeneratorInstance.AddToManagers(mLayer);
 			DeadPreyGeneratorInstance.AddToManagers(mLayer);
+			BuffaloGeneratorInstance.AddToManagers(mLayer);
+			DeadArmadilloGeneratorInstance.AddToManagers(mLayer);
+			DeadBuffaloGeneratorInstance.AddToManagers(mLayer);
 		}
 		public virtual void ConvertToManuallyUpdated ()
 		{
@@ -198,6 +225,9 @@ namespace Squeeze.Screens
 			ArmadilloGeneratorInstance.ConvertToManuallyUpdated();
 			DoodadGeneratorInstance.ConvertToManuallyUpdated();
 			DeadPreyGeneratorInstance.ConvertToManuallyUpdated();
+			BuffaloGeneratorInstance.ConvertToManuallyUpdated();
+			DeadArmadilloGeneratorInstance.ConvertToManuallyUpdated();
+			DeadBuffaloGeneratorInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -218,6 +248,9 @@ namespace Squeeze.Screens
 			Squeeze.Entities.ArmadilloGenerator.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.DoodadGenerator.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.DeadPreyGenerator.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.BufalloGenerator.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.DeadArmadilloGenerator.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.DeadBuffaloGenerator.LoadStaticContent(contentManagerName);
 			CustomLoadStaticContent(contentManagerName);
 		}
 		object GetMember (string memberName)

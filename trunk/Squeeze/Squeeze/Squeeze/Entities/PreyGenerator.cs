@@ -37,7 +37,7 @@ namespace Squeeze.Entities
 
 		private void CustomActivity()
 		{
-            while (g_prey.Count < 10)
+            while (g_prey.Count < 4)
             {
                 var prey = PreyFactory.CreateNew();
                 prey.SetupRandomGenerator(m_random.Next(int.MaxValue));

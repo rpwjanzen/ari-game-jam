@@ -18,18 +18,18 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FlatRedBall.Math;
+using FarseerPhysics.Dynamics;
 using Squeeze.Factories;
-
 
 #endif
 
 namespace Squeeze.Entities
 {
-	public partial class DeadPreyGenerator
-	{
-
-        public static readonly PositionedObjectList<DeadPrey> g_prey = new PositionedObjectList<DeadPrey>();
-
+	public partial class BufalloGenerator
+    {
+        public static readonly PositionedObjectList<Buffalo> g_buffalo = new PositionedObjectList<Buffalo>();
+        private readonly Random m_random = new Random(493);
+        
 		private void CustomInitialize()
 		{
 
@@ -38,7 +38,17 @@ namespace Squeeze.Entities
 
 		private void CustomActivity()
 		{
-            foreach (var prey in g_prey)
+            while (g_buffalo.Count < 1)
+            {
+                var buffalo = BuffaloFactory.CreateNew();
+                buffalo.SetupRandomGenerator(m_random.Next(int.MaxValue));
+                int x = m_random.Next(0 + 64, 800 - 64);
+                int y = m_random.Next(-600 - 64, -(0 + 64));
+
+                buffalo.Body.Position = new Microsoft.Xna.Framework.Vector2(x, y);
+            }
+
+            foreach (var prey in g_buffalo)
                 prey.Activity();
 		}
 
@@ -50,7 +60,7 @@ namespace Squeeze.Entities
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-            DeadPreyFactory.Initialize(g_prey, contentManagerName);
+            BuffaloFactory.Initialize(g_buffalo, contentManagerName);
         }
 	}
 }

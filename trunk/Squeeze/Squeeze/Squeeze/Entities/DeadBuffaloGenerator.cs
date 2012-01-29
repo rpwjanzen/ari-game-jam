@@ -25,11 +25,9 @@ using Squeeze.Factories;
 
 namespace Squeeze.Entities
 {
-	public partial class DeadPreyGenerator
-	{
-
-        public static readonly PositionedObjectList<DeadPrey> g_prey = new PositionedObjectList<DeadPrey>();
-
+	public partial class DeadBuffaloGenerator
+    {
+        public static readonly PositionedObjectList<DeadBuffalo> g_deadBuffalo = new PositionedObjectList<DeadBuffalo>();
 		private void CustomInitialize()
 		{
 
@@ -38,8 +36,8 @@ namespace Squeeze.Entities
 
 		private void CustomActivity()
 		{
-            foreach (var prey in g_prey)
-                prey.Activity();
+            foreach (var buffalo in g_deadBuffalo)
+                buffalo.Activity();
 		}
 
 		private void CustomDestroy()
@@ -50,7 +48,7 @@ namespace Squeeze.Entities
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-            DeadPreyFactory.Initialize(g_prey, contentManagerName);
+            DeadBuffaloFactory.Initialize(g_deadBuffalo, contentManagerName);
         }
 	}
 }
