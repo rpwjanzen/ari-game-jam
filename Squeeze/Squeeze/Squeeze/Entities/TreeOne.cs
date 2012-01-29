@@ -18,6 +18,7 @@ using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 using FarseerPhysics.Dynamics;
+using Squeeze.Screens;
 
 
 #endif
@@ -30,7 +31,7 @@ namespace Squeeze.Entities
 
 		private void CustomInitialize()
 		{
-            this.EntireScene.Shift(new Vector3(0, 0, 1));
+            this.Z = Settings.LayersByName[Settings.Layers.Tree];
 		}
 
 		private void CustomActivity()

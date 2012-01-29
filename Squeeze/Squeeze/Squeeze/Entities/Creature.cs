@@ -25,6 +25,7 @@ using FarseerPhysics.Factories;
 using FarseerPhysics.Dynamics;
 using Squeeze.Factories;
 using FlatRedBall.Math;
+using Squeeze.Screens;
 
 
 #endif
@@ -42,7 +43,7 @@ namespace Squeeze.Entities
 
 	    private double m_lastPreyKillTime = 0;
         private const double MIN_TIME_BETWEEN_KILLS = 0.5;
-        private Vector2 startingOffset = new Vector2(150, -500);
+        private Vector2 startingOffset = new Vector2(800, -500);
 
         public Vector3 Centroid
         {

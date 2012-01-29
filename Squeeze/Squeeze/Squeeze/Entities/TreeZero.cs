@@ -30,7 +30,7 @@ namespace Squeeze.Entities
 
 		private void CustomInitialize()
 		{
-            this.EntireScene.Shift(new Vector3(0, 0, 0.9f));
+            this.Z = Settings.LayersByName[Settings.Layers.Tree];
 		}
 
 		private void CustomActivity()
