@@ -26,6 +26,7 @@ using FarseerPhysics.Dynamics;
 using Squeeze.Factories;
 using FlatRedBall.Math;
 using Squeeze.Screens;
+using FarseerPhysics.Dynamics.Joints;
 
 
 #endif
@@ -39,7 +40,7 @@ namespace Squeeze.Entities
         private CreatureHead m_creatureHead;
         private CreatureTail m_creatureTail;
 
-        private List<CreatureBody> m_creatureBodies = new List<CreatureBody>();
+        private List<CreatureBody> m_creatureBodySegments = new List<CreatureBody>();
 
 	    private double m_lastPreyKillTime = 0;
         private const double MIN_TIME_BETWEEN_KILLS = 0.5;
@@ -69,15 +70,26 @@ namespace Squeeze.Entities
 	    {
             get { return new Vector2(Centroid.X, Centroid.Y); }
 	    }
+        const int InitialSegmentCount = 20;
+        const float HalfHeight = 10f / 2f;
+        const float HalfWidth = 15f / 2f;
 
-        const int numSegments = 20;
-        const float halfHeight = 20f / 2f;
-        const float halfWidth = 20f / 2f;
+        const float BodyRestitution = 1;
+
+        const float Frequency = 0;
+        const float DampeningRatio = 0;
+        const float MinLength = 1;
+        const float MaxLength = 1;
+        //const float m_segmentMass = 150;
+
+        const float LinearDampening = 0.005f;
+        const float ForwardForce = 100;
+        const float BackwardForce = 100;
+        const float LateralForce = 100;
 
         private PolygonShape GetBodyShape()
         {
-            var capsuleVertices = PolygonTools.CreateRectangle(halfWidth, halfHeight);
-            int c = capsuleVertices.Count;
+            var capsuleVertices = PolygonTools.CreateRectangle(HalfWidth, HalfHeight);
             var shape = new PolygonShape(capsuleVertices, 1f);
             return shape;
         }
@@ -85,50 +97,60 @@ namespace Squeeze.Entities
 		private void CustomInitialize()
 		{
             m_world = FarseerPhysicsEntity.World;
-            
 
             Path m_path = new Path();
-            m_path.Add(new Vector2(0, numSegments * -halfHeight));
-            m_path.Add(new Vector2(0, numSegments * halfHeight));
+            m_path.Add(new Vector2(0, InitialSegmentCount * -HalfHeight));
+            m_path.Add(new Vector2(0, InitialSegmentCount * HalfHeight));
             m_path.Closed = false;
 
             List<Shape> shapes = new List<Shape>();
             shapes.Add(GetBodyShape());
 
-            List<Body> bodies = PathManager.EvenlyDistributeShapesAlongPath(m_world, m_path, shapes, BodyType.Dynamic, numSegments);
-            foreach (var body in bodies)
-                body.LinearDamping = 0.005f;
+            // create bodies and spring joints
+            List<Body> bodies = PathManager.EvenlyDistributeShapesAlongPath(m_world, m_path, shapes, BodyType.Dynamic, InitialSegmentCount);
+            var springJoints = PathManager.AttachBodiesWithSliderJoint(m_world, bodies,
+                new Vector2(0, -HalfHeight),
+                new Vector2(0, HalfHeight),
+                false, true,
+                MinLength, MaxLength);
 
-            PathManager.AttachBodiesWithSliderJoint(m_world, bodies,
-                new Vector2(0, -halfHeight),
-                new Vector2(0, halfHeight),
-                false, true, 1, 3);
+            // set extra spring joint parameters
+            foreach (var joint in springJoints)
+            {
+                joint.Frequency = Frequency;
+                joint.DampingRatio = DampeningRatio;
+            }
 
+            // create head
             var headBody = new Body(m_world);
             headBody.BodyType = BodyType.Dynamic;
-            headBody.LinearDamping = 0.005f;
             headBody.CreateFixture(GetBodyShape());
-            headBody.Position = new Vector2(0, (numSegments + 1) * -halfHeight) + startingOffset;
-
-            Join(bodies[0], headBody);
+            headBody.Position = new Vector2(0, (InitialSegmentCount + 1) * -HalfHeight) + startingOffset;
+            headBody.LinearDamping = LinearDampening;
+            headBody.Restitution = BodyRestitution;
 
             m_creatureHead = CreatureHeadFactory.CreateNew();
             m_creatureHead.Body = headBody;
+            Join(bodies[0], headBody);
 
+            // create tail
             m_creatureTail = CreatureTailFactory.CreateNew();
             m_creatureTail.Body = bodies[bodies.Count - 1];
 
+            // offset + set bodies variables
             foreach (var body in bodies)
             {
                 body.Position += startingOffset;
-                body.Mass = 32;
+                body.LinearDamping = LinearDampening;
+                body.Restitution = BodyRestitution;
             }
 
+            // set bodies to body segments
             for (int i = 0; i < bodies.Count - 1; i++)
             {
                 var creatureBodySegment = CreatureBodyFactory.CreateNew();
                 creatureBodySegment.Body = bodies[i];
-                m_creatureBodies.Add(creatureBodySegment);
+                m_creatureBodySegments.Add(creatureBodySegment);
             }
 		}
 
@@ -139,52 +161,69 @@ namespace Squeeze.Entities
             m_world.RemoveJoint(joint);
         }
 
-        private void Join(Body a, Body b)
+        private void Join(Body closestToTailBody, Body closestToHeadBody)
         {
-            var sliderJoint = JointFactory.CreateSliderJoint(m_world, a, b,
-                new Vector2(0, -halfHeight),
-                new Vector2(0, halfHeight), 1, 3);
-            sliderJoint.CollideConnected = true;
+            var springJoint = JointFactory.CreateSliderJoint(m_world, closestToTailBody, closestToHeadBody,
+                new Vector2(0, -HalfHeight),
+                new Vector2(0, HalfHeight),
+                MinLength, MaxLength);
+            springJoint.CollideConnected = true;
+            springJoint.Frequency = Frequency;
+            springJoint.DampingRatio = DampeningRatio;
         }
 
         public void AddSegment()
         {
-            var lastBodySegment = m_creatureBodies[m_creatureBodies.Count - 1];
+            var lastBodySegment = m_creatureBodySegments[m_creatureBodySegments.Count - 1];
             var tailSegment = m_creatureTail;
 
+            // detach tail
             Unjoin(lastBodySegment.Body, tailSegment.Body);
 
+            // create new segment body
             var body = new Body(m_world);
             body.BodyType = BodyType.Dynamic;
-            body.LinearDamping = 0.005f;
             body.CreateFixture(GetBodyShape());
-            body.Mass = 10;
+            body.LinearDamping = LinearDampening;
+            body.Restitution = BodyRestitution;
 
             var newSegment = CreatureBodyFactory.CreateNew();
             newSegment.Body = body;
 
+            // attach new segment body
             Join(newSegment.Body, lastBodySegment.Body);
 
-            float x = lastBodySegment.Position.X - tailSegment.Position.X;
-            float y = lastBodySegment.Position.Y - tailSegment.Position.Y;
-
-            newSegment.Body.Position = new Vector2(
-                tailSegment.Position.X + (x / 2.0f),
-                tailSegment.Position.Y + (y / 2.0f));
-
+            // position new body
+            float xDelta = lastBodySegment.Position.X - tailSegment.Position.X;
+            float yDelta = lastBodySegment.Position.Y - tailSegment.Position.Y;
+            float avgX = tailSegment.Position.X + (xDelta / 2.0f);
+            float avgY = tailSegment.Position.Y + (yDelta / 2.0f);
+            newSegment.Body.Position = new Vector2(avgX, avgY);
             newSegment.Body.Rotation = tailSegment.Body.Rotation;
 
-            Join(tailSegment.Body, newSegment.Body);
+            m_creatureBodySegments.Add(newSegment);
 
-            m_creatureBodies.Add(newSegment);
+            // re-attach tail
+            Join(tailSegment.Body, newSegment.Body);
+        }
+
+        private Mat22 GetRotationMatrix(float angle)
+        {
+            var rotationMatrix = new Mat22(
+                (float)Math.Cos(angle),
+                (float)Math.Sin(angle),
+                (float)-Math.Sin(angle),
+                (float)Math.Cos(angle));
+
+            return rotationMatrix;
         }
 
 		private void CustomActivity()
 		{
+            // sync position and rotation of each item
             m_creatureHead.Activity();
-            foreach (var bodySegment in m_creatureBodies)
+            foreach (var bodySegment in m_creatureBodySegments)
                 bodySegment.Activity();
-
             m_creatureTail.Activity();
 
 		    HandleInput();
@@ -197,6 +236,7 @@ namespace Squeeze.Entities
         private void HandleInput()
         {
 
+
             bool isKeyPressed = false;
             var keyboard = InputManager.Keyboard;
             if (keyboard.KeyDown(Keys.W))
@@ -204,10 +244,12 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = GetRotationMatrix(t);
+                var rotationMatrix = GetRotationMatrix(t.Angle);
+                var localForward = -Vector2.UnitY;
+                var absoluteForward = rotationMatrix.Solve(localForward);
+                m_creatureHead.Body.ApplyForce(absoluteForward * ForwardForce);
 
-                var forward = rotationMatrix.Solve(-Vector2.UnitY);
-                m_creatureHead.Body.ApplyForce(forward * 800);
+                //ApplyForceToSomeSegments(forwardForce, localForward);
 
                 isKeyPressed = true;
             }
@@ -216,10 +258,12 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = GetRotationMatrix(t);
+                var rotationMatrix = GetRotationMatrix(t.Angle);
+                var localBackward = Vector2.UnitY;
+                var absoluteBackward = rotationMatrix.Solve(localBackward);
+                m_creatureHead.Body.ApplyForce(absoluteBackward * BackwardForce);
 
-                var backward = rotationMatrix.Solve(Vector2.UnitY);
-                m_creatureHead.Body.ApplyForce(backward * 800);
+                //ApplyForceToSomeSegments(backwardForce, localBackward);
 
                 isKeyPressed = true;
             }
@@ -229,10 +273,13 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = GetRotationMatrix(t);
+                var rotationMatrix = GetRotationMatrix(t.Angle);
+                
+                var localLeft = Vector2.UnitX;
+                var absoluteLeft = rotationMatrix.Solve(localLeft);
+                m_creatureHead.Body.ApplyForce(absoluteLeft * LateralForce);
 
-                var left = rotationMatrix.Solve(new Vector2(1, -1));
-                m_creatureHead.Body.ApplyForce(left * 120);
+                //ApplyForceToSomeSegments(lateralForce, localLeft);
 
                 isKeyPressed = true;
             }
@@ -241,11 +288,12 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = GetRotationMatrix(t);
+                var rotationMatrix = GetRotationMatrix(t.Angle);
+                var localRight = -Vector2.UnitX;
+                var absoluteRight = rotationMatrix.Solve(localRight);
+                m_creatureHead.Body.ApplyForce(absoluteRight * LateralForce);
 
-                var right = rotationMatrix.Solve(new Vector2(-1, -1));
-
-                m_creatureHead.Body.ApplyForce(right * 120);
+                //ApplyForceToSomeSegments(lateralForce, localRight);
 
                 isKeyPressed = true;
             }
@@ -253,7 +301,7 @@ namespace Squeeze.Entities
             if (!isKeyPressed)
             {
                 m_creatureHead.Body.ResetDynamics();
-                foreach (var body in m_creatureBodies)
+                foreach (var body in m_creatureBodySegments)
                     body.Body.ResetDynamics();
                 m_creatureTail.Body.ResetDynamics();
             }
@@ -279,7 +327,7 @@ namespace Squeeze.Entities
                 List<Vector2> snakePolygonPoints = new List<Vector2>();
                 snakePolygonPoints.Add(m_creatureHead.Body.Position);
                 snakePolygonPoints.Add(m_creatureTail.Body.Position);
-                foreach (CreatureBody mCreatureBody in m_creatureBodies)
+                foreach (CreatureBody mCreatureBody in m_creatureBodySegments)
                 {
                     snakePolygonPoints.Add(mCreatureBody.Body.Position);
                 }
@@ -356,6 +404,30 @@ namespace Squeeze.Entities
             return m_random.Next(2) == 1 ? 1 : -1;
         }
 
+        private void ApplyForceToSomeSegments(float forceAmount, Vector2 localDirection)
+        {
+            for (int i = 0; i < m_creatureBodySegments.Count; i += 4)
+            {
+                Transform t;
+                
+                var bodySegment = m_creatureBodySegments[i];
+                var body = bodySegment.Body;
+                body.GetTransform(out t);
+
+                var rotationMatrix = new Mat22(
+                    (float)Math.Cos(t.Angle),
+                    (float)Math.Sin(t.Angle),
+                    (float)-Math.Sin(t.Angle),
+                    (float)Math.Cos(t.Angle));
+
+                var absoluteDirection = rotationMatrix.Solve(localDirection);
+
+                float falloff = (i / (float)m_creatureBodySegments.Count);
+                //body.ApplyForce(absoluteDirection * forceAmount);
+                body.ApplyForce(absoluteDirection * forceAmount * falloff);
+            }
+        }
+
 		private void CustomDestroy()
 		{
 
@@ -372,9 +444,6 @@ namespace Squeeze.Entities
 
             PositionedObjectList<CreatureTail> creatureTails= new PositionedObjectList<CreatureTail>();
             CreatureTailFactory.Initialize(creatureTails, contentManagerName);
-
-            //PositionedObjectList<DeadPrey> deadPrey=new PositionedObjectList<DeadPrey>();
-            //DeadPreyFactory.Initialize(deadPrey, contentManagerName);
         }
 
         public bool IsPointWithin(Vector2 point, List<Vector2> poly)
@@ -394,7 +463,7 @@ namespace Squeeze.Entities
                     // start y <= point.Y
                     if (poly[i + 1].Y > point.Y)  // an upward crossing
                     {
-                        if (isLeft(poly[i], poly[i + 1], point) > 0)  // point left of edge
+                        if (IsLeft(poly[i], poly[i + 1], point) > 0)  // point left of edge
                         {
                             ++Counter;  // have a valid up intersect
                         }
@@ -404,7 +473,7 @@ namespace Squeeze.Entities
                 {
                     // start y > point.y (no test needed)
                     if (poly[i + 1].Y <= point.Y)     // a downward crossing
-                        if (isLeft(poly[i], poly[i + 1], point) < 0)  // point right of edge
+                        if (IsLeft(poly[i], poly[i + 1], point) < 0)  // point right of edge
                         {
                             --Counter;            // have a valid down intersect
                         }
@@ -420,7 +489,7 @@ namespace Squeeze.Entities
             }
         }
 
-        private float isLeft(Vector2 LinePoint1, Vector2 LinePoint2, Vector2 TestPoint)
+        private float IsLeft(Vector2 LinePoint1, Vector2 LinePoint2, Vector2 TestPoint)
         {
             // tests if a point is Left|On|Right of an infinite line.
             //    Input:  three points LinePoint1, LinePoint2, and TestPoint
