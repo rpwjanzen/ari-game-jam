@@ -81,7 +81,7 @@ namespace Squeeze
 
         public static Body InitializePreyBody(World world, int preySize, int preyMass)
         {
-            var body = BodyFactory.CreateCircle(world, preyMass, 1);
+            var body = BodyFactory.CreateCircle(world, preySize, 1);
             body.BodyType = BodyType.Dynamic;
             body.LinearDamping = 0.15f;
             body.AngularDamping = 0.15f;

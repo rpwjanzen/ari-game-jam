@@ -49,7 +49,7 @@ namespace Squeeze.Entities
 		{
             m_world = FarseerPhysicsEntity.World;
 
-            Body = PreyBehaviour.InitializePreyBody(m_world, 16, 20);
+            Body = PreyBehaviour.InitializePreyBody(m_world, preySize: 16, preyMass: 4);
 		}
 
 		private void CustomActivity()
