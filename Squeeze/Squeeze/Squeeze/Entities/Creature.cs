@@ -54,6 +54,11 @@ namespace Squeeze.Entities
 
         private static SoundEffect m_mouseSquish;
 
+        // We only add one section per time unit so we let you queue them
+	    private double m_lastSectionAddTime = 0;
+	    private int m_segmentsToAdd = 0;
+	    private const double TIME_BETWEEN_SECTION_ADDS = 2;//seconds
+
         public Vector3 Centroid
         {
             get
@@ -241,7 +246,20 @@ namespace Squeeze.Entities
 		    KillPrey();
 
 		    MovePreyCloser();
+
+		    AddQueuedSegments();
 		}
+
+        private void AddQueuedSegments()
+        {
+            if(m_segmentsToAdd > 0 &&
+                m_lastSectionAddTime + TIME_BETWEEN_SECTION_ADDS < TimeManager.CurrentTime)
+            {
+                m_lastSectionAddTime = TimeManager.CurrentTime;
+                m_segmentsToAdd--;
+                AddSegment();
+            }
+        }
 
         private void HandleInput()
         {
@@ -346,7 +364,7 @@ namespace Squeeze.Entities
 
                 if (prey != null)
                 {
-                    AddSegment();
+                    m_segmentsToAdd += 1;
                     DeadPrey deadPrey = DeadPreyFactory.CreateNew();
                     deadPrey.Position = prey.Position;
                     deadPrey.RotationMatrix = prey.RotationMatrix;
@@ -361,7 +379,7 @@ namespace Squeeze.Entities
 
                     if (armadillo != null)
                     {
-                        AddSegment();
+                        m_segmentsToAdd += 3;
                         DeadArmadillo deadArmadillo = DeadArmadilloFactory.CreateNew();
                         deadArmadillo.Position = armadillo.Position;
                         deadArmadillo.RotationMatrix = armadillo.RotationMatrix;
@@ -376,7 +394,7 @@ namespace Squeeze.Entities
 
                         if (buffalo != null)
                         {
-                            AddSegment();
+                            m_segmentsToAdd += 6;
                             DeadBuffalo deadBuffalo = DeadBuffaloFactory.CreateNew();
                             deadBuffalo.Position = buffalo.Position;
                             deadBuffalo.RotationMatrix = buffalo.RotationMatrix;
