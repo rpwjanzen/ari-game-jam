@@ -28,6 +28,9 @@ namespace Squeeze
 
         private static SoundEffectInstance m_backgroundMusic;
 
+        private bool m_qKeyDown = false;
+        private bool m_drawDebugInfo = true;
+
         public Game1()
         {
 
@@ -83,6 +86,14 @@ namespace Squeeze
 
             ScreenManager.Activity();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+                m_qKeyDown = true;
+            else if(m_qKeyDown == true && Keyboard.GetState().IsKeyUp(Keys.Q))
+            {
+                m_qKeyDown = false;
+                m_drawDebugInfo = !m_drawDebugInfo;
+            }
+
             base.Update(gameTime);
         }
 
@@ -90,9 +101,12 @@ namespace Squeeze
         {
             FlatRedBallServices.Draw();
 
-            // draw the debug view
-            var vp = SpriteManager.Camera.ViewProjection;
-            DebugViewXNA.RenderDebugData(ref vp);
+            if (m_drawDebugInfo)
+            {
+                // draw the debug view
+                var vp = SpriteManager.Camera.ViewProjection;
+                DebugViewXNA.RenderDebugData(ref vp);
+            }
 
             base.Draw(gameTime);
         }

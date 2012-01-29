@@ -95,7 +95,7 @@ namespace Squeeze.Screens
             cameraCenter.Position.X = (float)Math.Floor(cameraCenter.Position.X);
             cameraCenter.Position.Y = (float)Math.Floor(cameraCenter.Position.Y);
             cameraCenter.Position.Z = (float)Math.Floor(cameraCenter.Position.Z);
-
+            
             if (firstTimeCalled)
             {
                 foreach (var log in g_logs)

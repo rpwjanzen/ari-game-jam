@@ -30,9 +30,7 @@ namespace Squeeze.Entities
 	{
         public static readonly PositionedObjectList<Prey> g_prey = new PositionedObjectList<Prey>();
         private readonly Random m_random = new Random(271);
-
-        public Body HeadBody { get; set; }
-
+        
 		private void CustomInitialize()
 		{
 		}
@@ -43,7 +41,6 @@ namespace Squeeze.Entities
             {
                 var prey = PreyFactory.CreateNew();
                 prey.SetupRandomGenerator(m_random.Next(int.MaxValue));
-                prey.HeadBody = HeadBody;
                 int x = m_random.Next(0 + 64, 800 - 64);
                 int y = m_random.Next(-600 - 64 , - (0 + 64));
 
