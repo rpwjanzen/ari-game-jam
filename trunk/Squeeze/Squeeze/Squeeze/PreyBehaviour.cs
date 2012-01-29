@@ -16,6 +16,9 @@ namespace Squeeze
         private const int MIN_ANGULAR_VELOCITY = -1000;
         private const int ANGULAR_VELOCITY_CHANGE = 50;
 
+        private const double TIME_TO_KEEP_HISTORY_FOR = 3; // seconds
+        private const float MIN_DISTANCE_REQUIRED = 20; // pixels
+
         /// <summary>
         /// 
         /// </summary>
@@ -90,6 +93,28 @@ namespace Squeeze
 
             body.Mass = preyMass;
             return body;
+        }
+
+        public static void ForceMoveIfStuck(Queue<Tuple<double, Vector2>> PositionalHistory, FarseerPhysics.Dynamics.Body Body)
+        {
+            PositionalHistory.Enqueue(new Tuple<double, Vector2>(TimeManager.CurrentTime,
+                                                        new Vector2(Body.Position.X, Body.Position.Y)));
+
+            bool positionWasSet = false;
+            Vector2 oldPosition = Vector2.One;
+            while (PositionalHistory.Peek().Item1 + TIME_TO_KEEP_HISTORY_FOR < TimeManager.CurrentTime)
+            {
+                oldPosition = PositionalHistory.Dequeue().Item2;
+                positionWasSet = true;
+            }
+
+            if (positionWasSet &&
+                (oldPosition - Body.Position).Length() < MIN_DISTANCE_REQUIRED)
+            {
+                Body.SetTransform(Body.Position, Body.Rotation + (float)Math.PI);
+                PositionalHistory.Clear();
+            }
+
         }
     }
 }
