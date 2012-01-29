@@ -42,6 +42,7 @@ namespace Squeeze.Entities
             while (g_prey.Count < 10)
             {
                 var prey = PreyFactory.CreateNew();
+                prey.SetupRandomGenerator(m_random.Next(int.MaxValue));
                 prey.HeadBody = HeadBody;
                 int x = m_random.Next(0 + 64, 800 - 64);
                 int y = m_random.Next(0 + 64, 600 - 64);

@@ -38,12 +38,14 @@
           <Is2D>false</Is2D>
         </NamedObjectSave>
         <NamedObjectSave>
-          <SourceType>File</SourceType>
+          <SourceType>Entity</SourceType>
           <SourceFile>Screens/GameScreen/BackgroundSpriteGrid.scnx</SourceFile>
           <SourceName>Entire File (Scene)</SourceName>
+          <SourceClassType>Entities\Level1Background</SourceClassType>
           <InstanceName>SpriteGridInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>
           <AddToManagers>true</AddToManagers>
+          <LayerOn>Under Everything (Engine Layer)</LayerOn>
           <Is2D>false</Is2D>
         </NamedObjectSave>
         <NamedObjectSave>
@@ -285,5 +287,14 @@
   </PerformanceSettingsSave>
   <IgnoredDirectories />
   <CustomClasses />
-  <TranslatedFiles />
+  <TranslatedFiles>
+    <TranslatedFileSave>
+      <FileName>Entities\Level1Background.cs</FileName>
+      <TranslationStyle>PerformTranslate</TranslationStyle>
+    </TranslatedFileSave>
+    <TranslatedFileSave>
+      <FileName>Entities\Level1Background.Generated.cs</FileName>
+      <TranslationStyle>PerformTranslate</TranslationStyle>
+    </TranslatedFileSave>
+  </TranslatedFiles>
 </GlueProjectSave>

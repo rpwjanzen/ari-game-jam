@@ -40,6 +40,9 @@ namespace Squeeze.Entities
 
         private List<CreatureBody> m_creatureBodies = new List<CreatureBody>();
 
+	    private double m_lastPreyKillTime = 0;
+        private const double MIN_TIME_BETWEEN_KILLS = 0.5;
+
         public Vector3 Centroid
         {
             get
@@ -216,7 +219,8 @@ namespace Squeeze.Entities
                 m_creatureTail.Body.ResetDynamics();
             }
 
-            if ((m_creatureHead.Body.Position - m_creatureTail.Body.Position).Length() < 60)
+            if (m_lastPreyKillTime + MIN_TIME_BETWEEN_KILLS < TimeManager.CurrentTime  &&
+                (m_creatureHead.Body.Position - m_creatureTail.Body.Position).Length() < 60)
             {
                 List<Vector2> snakePolygonPoints = new List<Vector2>();
                 snakePolygonPoints.Add(m_creatureHead.Body.Position);
@@ -234,6 +238,7 @@ namespace Squeeze.Entities
                 {
                     AddSegment();
                     prey.Destroy();
+                    m_lastPreyKillTime = TimeManager.CurrentTime;
                 }
             }
 		}

@@ -36,6 +36,19 @@ namespace Squeeze.Entities
 
         private World m_world;
 
+        private int m_angularVelocity = 0;
+        private const int MAX_ANGULAR_VELOCITY = 1000;
+        private const int MIN_ANGULAR_VELOCITY = -1000;
+	    private const int ANGULAR_VELOCITY_CHANGE = 50;
+
+        private Random m_random = new Random();
+
+        // do this so that pray which spawn at the same time have different seeds.
+        public void SetupRandomGenerator(int seed)
+        {
+            m_random = new Random(seed);
+        }
+
 		private void CustomInitialize()
 		{
             m_world = FarseerPhysicsEntity.World;
@@ -49,6 +62,8 @@ namespace Squeeze.Entities
             var shape = new PolygonShape(rectangleVertices, 1f);
             body.CreateFixture(shape);
             Body = body;
+
+		    //Body.Rotation = (float)(m_random.Next(0, 360) * Math.PI / 180);
 		}
 
 		private void CustomActivity()
@@ -57,10 +72,34 @@ namespace Squeeze.Entities
             this.Position.Y = Body.Position.Y;
 
             this.RotationZ = Body.Rotation;
+
+            // Move the prey foward
+            Transform t;
+            Body.GetTransform(out t);
+
+            var rotationMatrix = new Mat22(
+                (float)Math.Cos(t.Angle),
+                (float)Math.Sin(t.Angle),
+                (float)-Math.Sin(t.Angle),
+                (float)Math.Cos(t.Angle));
+
+            var forward = rotationMatrix.Solve(-Vector2.UnitY);
+            Body.ApplyForce(forward * 200);
+
+            var left = rotationMatrix.Solve(Vector2.UnitX);
+
+            m_angularVelocity += m_random.Next(-ANGULAR_VELOCITY_CHANGE, ANGULAR_VELOCITY_CHANGE);
+            if (m_angularVelocity > MAX_ANGULAR_VELOCITY)
+                m_angularVelocity = MAX_ANGULAR_VELOCITY;
+            if (m_angularVelocity < MIN_ANGULAR_VELOCITY)
+                m_angularVelocity = MIN_ANGULAR_VELOCITY;
+
+            Body.ApplyForce(left * m_angularVelocity);
 		}
 
 		private void CustomDestroy()
 		{
+		    this.m_world.RemoveBody(this.Body);
 		}
 
         private static void CustomLoadStaticContent(string contentManagerName)
