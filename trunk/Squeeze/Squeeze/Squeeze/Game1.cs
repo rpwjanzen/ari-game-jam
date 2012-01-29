@@ -58,7 +58,7 @@ namespace Squeeze
             DebugViewXNA.SleepingShapeColor = Color.LightGray;
             DebugViewXNA.LoadContent(GraphicsDevice, Content);
 
-            SoundEffect _backgroundMusicSoundEffect = FlatRedBallServices.Load<SoundEffect>("Content\\Happy High Five");
+            SoundEffect _backgroundMusicSoundEffect = FlatRedBallServices.Load<SoundEffect>("Content\\SnakeBGMusic");
             m_backgroundMusic = _backgroundMusicSoundEffect.CreateInstance();
             m_backgroundMusic.Play();
 
