@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TileMapPropertiesSave xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <IsThreeDee>false</IsThreeDee>
+  <TileSize>64</TileSize>
+  <PadSize>0</PadSize>
+  <CollisionPatternSaves>
+    <CollisionPatternSave>
+      <PolygonSaveList>
+        <PolygonSaves>
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+          <PolygonSave xsi:nil="true" />
+        </PolygonSaves>
+      </PolygonSaveList>
+      <TextureName />
+      <Width>8</Width>
+      <Height>4</Height>
+    </CollisionPatternSave>
+  </CollisionPatternSaves>
+</TileMapPropertiesSave>

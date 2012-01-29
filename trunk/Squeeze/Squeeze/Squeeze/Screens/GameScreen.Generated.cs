@@ -45,9 +45,9 @@ namespace Squeeze.Screens
 		
 		private Squeeze.Entities.Creature CreatureInstance;
 		private Squeeze.Entities.FarseerPhysicsEntity FarseerPhysicsEntityInstance;
-		private Squeeze.Entities.Level1Background BackgroundInstance;
 		private Squeeze.Entities.PreyGenerator PreyGeneratorInstance;
 		private Scene SpriteGridInstance;
+		private Squeeze.Entities.LevelOne LevelOneInstance;
 
 		public GameScreen()
 			: base("GameScreen")
@@ -71,10 +71,10 @@ namespace Squeeze.Screens
 			CreatureInstance.Name = "CreatureInstance";
 			FarseerPhysicsEntityInstance = new Squeeze.Entities.FarseerPhysicsEntity(ContentManagerName, false);
 			FarseerPhysicsEntityInstance.Name = "FarseerPhysicsEntityInstance";
-			BackgroundInstance = new Squeeze.Entities.Level1Background(ContentManagerName, false);
-			BackgroundInstance.Name = "BackgroundInstance";
 			PreyGeneratorInstance = new Squeeze.Entities.PreyGenerator(ContentManagerName, false);
 			PreyGeneratorInstance.Name = "PreyGeneratorInstance";
+			LevelOneInstance = new Squeeze.Entities.LevelOne(ContentManagerName, false);
+			LevelOneInstance.Name = "LevelOneInstance";
 			
 			
 			PostInitialize();
@@ -102,8 +102,8 @@ namespace Squeeze.Screens
 				
 				CreatureInstance.Activity();
 				FarseerPhysicsEntityInstance.Activity();
-				BackgroundInstance.Activity();
 				PreyGeneratorInstance.Activity();
+				LevelOneInstance.Activity();
 			}
 			else
 			{
@@ -141,10 +141,6 @@ namespace Squeeze.Screens
 			{
 				FarseerPhysicsEntityInstance.Destroy();
 			}
-			if (BackgroundInstance != null)
-			{
-				BackgroundInstance.Destroy();
-			}
 			if (PreyGeneratorInstance != null)
 			{
 				PreyGeneratorInstance.Destroy();
@@ -152,6 +148,10 @@ namespace Squeeze.Screens
 			if (SpriteGridInstance != null)
 			{
 				SpriteGridInstance.RemoveFromManagers(ContentManagerName != "Global");
+			}
+			if (LevelOneInstance != null)
+			{
+				LevelOneInstance.Destroy();
 			}
 
 			base.Destroy();
@@ -169,17 +169,17 @@ namespace Squeeze.Screens
 			BackgroundSpriteGrid.AddToManagers(mLayer);
 			CreatureInstance.AddToManagers(mLayer);
 			FarseerPhysicsEntityInstance.AddToManagers(mLayer);
-			BackgroundInstance.AddToManagers(mLayer);
 			PreyGeneratorInstance.AddToManagers(mLayer);
+			LevelOneInstance.AddToManagers(mLayer);
 		}
 		public virtual void ConvertToManuallyUpdated ()
 		{
 			BackgroundSpriteGrid.ConvertToManuallyUpdated();
 			CreatureInstance.ConvertToManuallyUpdated();
 			FarseerPhysicsEntityInstance.ConvertToManuallyUpdated();
-			BackgroundInstance.ConvertToManuallyUpdated();
 			PreyGeneratorInstance.ConvertToManuallyUpdated();
 			SpriteGridInstance.ConvertToManuallyUpdated();
+			LevelOneInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -195,8 +195,8 @@ namespace Squeeze.Screens
 			#endif
 			Squeeze.Entities.Creature.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.FarseerPhysicsEntity.LoadStaticContent(contentManagerName);
-			Squeeze.Entities.Level1Background.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.PreyGenerator.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.LevelOne.LoadStaticContent(contentManagerName);
 			CustomLoadStaticContent(contentManagerName);
 		}
 		object GetMember (string memberName)
