@@ -30,7 +30,7 @@ namespace Squeeze.Entities
 
 		private void CustomInitialize()
 		{
-            this.Z = Settings.LayersByName[Settings.Layers.Tree];
+            this.Z = Settings.LayersByName[Settings.Layers.Log];
 		}
 
 		private void CustomActivity()
