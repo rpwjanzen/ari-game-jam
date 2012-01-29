@@ -45,6 +45,11 @@ namespace Squeeze.Entities
         private const double MIN_TIME_BETWEEN_KILLS = 0.5;
         private Vector2 startingOffset = new Vector2(800, -500);
 
+	    private const int MOVE_PREY_CLOSER_TRIGGER_DISTANCE = 750;
+	    private const int MOVE_PREY_CLOSER_NEW_DISTANCE = 500;
+
+	    private Random m_random = new Random();
+
         public Vector3 Centroid
         {
             get
@@ -56,9 +61,14 @@ namespace Squeeze.Entities
                 //    v += bodySegment.Position;
                 //v += m_creatureTail.Position;
 
-                //return v / (m_creatureBodies.Count + 2);
+                //return v / (m_creatureBodies.Count + 2);1
             }
         }
+
+	    public Vector2 Vector2Centroid
+	    {
+            get { return new Vector2(Centroid.X, Centroid.Y); }
+	    }
 
         const int numSegments = 20;
         const float halfHeight = 20f / 2f;
@@ -177,6 +187,16 @@ namespace Squeeze.Entities
 
             m_creatureTail.Activity();
 
+		    HandleInput();
+
+		    KillPrey();
+
+		    MovePreyCloser();
+		}
+
+        private void HandleInput()
+        {
+
             bool isKeyPressed = false;
             var keyboard = InputManager.Keyboard;
             if (keyboard.KeyDown(Keys.W))
@@ -184,11 +204,7 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = new Mat22(
-                    (float)Math.Cos(t.Angle),
-                    (float)Math.Sin(t.Angle),
-                    (float)-Math.Sin(t.Angle),
-                    (float)Math.Cos(t.Angle));
+                var rotationMatrix = GetRotationMatrix(t);
 
                 var forward = rotationMatrix.Solve(-Vector2.UnitY);
                 m_creatureHead.Body.ApplyForce(forward * 800);
@@ -200,11 +216,7 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = new Mat22(
-                    (float)Math.Cos(t.Angle),
-                    (float)Math.Sin(t.Angle),
-                    (float)-Math.Sin(t.Angle),
-                    (float)Math.Cos(t.Angle));
+                var rotationMatrix = GetRotationMatrix(t);
 
                 var backward = rotationMatrix.Solve(Vector2.UnitY);
                 m_creatureHead.Body.ApplyForce(backward * 800);
@@ -217,13 +229,9 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = new Mat22(
-                    (float)Math.Cos(t.Angle),
-                    (float)Math.Sin(t.Angle),
-                    (float)-Math.Sin(t.Angle),
-                    (float)Math.Cos(t.Angle));
+                var rotationMatrix = GetRotationMatrix(t);
 
-                var left = rotationMatrix.Solve(new Vector2(1,-1));
+                var left = rotationMatrix.Solve(new Vector2(1, -1));
                 m_creatureHead.Body.ApplyForce(left * 120);
 
                 isKeyPressed = true;
@@ -233,11 +241,7 @@ namespace Squeeze.Entities
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
 
-                var rotationMatrix = new Mat22(
-                    (float)Math.Cos(t.Angle),
-                    (float)Math.Sin(t.Angle),
-                    (float)-Math.Sin(t.Angle),
-                    (float)Math.Cos(t.Angle));
+                var rotationMatrix = GetRotationMatrix(t);
 
                 var right = rotationMatrix.Solve(new Vector2(-1, -1));
 
@@ -253,8 +257,23 @@ namespace Squeeze.Entities
                     body.Body.ResetDynamics();
                 m_creatureTail.Body.ResetDynamics();
             }
+        }
 
-            if (m_lastPreyKillTime + MIN_TIME_BETWEEN_KILLS < TimeManager.CurrentTime  &&
+        private Mat22 GetRotationMatrix(Transform t)
+        {
+            return new Mat22(
+                (float)Math.Cos(t.Angle),
+                (float)Math.Sin(t.Angle),
+                (float)-Math.Sin(t.Angle),
+                (float)Math.Cos(t.Angle));    
+        }
+
+        /// <summary>
+        /// Kills any encompased prey, maxing out at one per time interval.
+        /// </summary>
+        private void KillPrey()
+        {
+            if (m_lastPreyKillTime + MIN_TIME_BETWEEN_KILLS < TimeManager.CurrentTime &&
                 (m_creatureHead.Body.Position - m_creatureTail.Body.Position).Length() < 60)
             {
                 List<Vector2> snakePolygonPoints = new List<Vector2>();
@@ -290,8 +309,52 @@ namespace Squeeze.Entities
                         m_lastPreyKillTime = TimeManager.CurrentTime;
                     }
                 }
+            }    
+        }
+
+        /// <summary>
+        /// To give the appearance of a populated area we are going to move units that get far away closer.
+        /// </summary>
+        private void MovePreyCloser()
+        {
+            var rats = PreyGenerator.g_prey.Where(r => (r.Position - Centroid).Length() > MOVE_PREY_CLOSER_TRIGGER_DISTANCE);
+
+            foreach(Prey rat in rats)
+            {
+                MovePositionedObjectCloser(rat.Body);
             }
-		}
+
+
+            var armadillos = ArmadilloGenerator.g_armadillo.Where(r => (r.Position - Centroid).Length() > MOVE_PREY_CLOSER_TRIGGER_DISTANCE);
+
+            foreach (Armadillo armadillo in armadillos)
+            {
+                MovePositionedObjectCloser(armadillo.Body);
+            }
+            
+        }
+
+        private void MovePositionedObjectCloser(Body body)
+        {
+            // chose an axis to use to make sure the creature is out of sight.
+            if (m_random.Next(2) == 1)
+            {
+                // x axis
+                body.Position = new Vector2(Vector2Centroid.X + (RandOfNegativeOneOrPositiveOne() * MOVE_PREY_CLOSER_NEW_DISTANCE),
+                                                            Vector2Centroid.Y + (m_random.Next(-MOVE_PREY_CLOSER_NEW_DISTANCE, MOVE_PREY_CLOSER_NEW_DISTANCE)));
+            }
+            else
+            {
+                // y axis
+                body.Position = new Vector2(Vector2Centroid.X + (m_random.Next(-MOVE_PREY_CLOSER_NEW_DISTANCE, MOVE_PREY_CLOSER_NEW_DISTANCE)),
+                                                            Vector2Centroid.Y + (RandOfNegativeOneOrPositiveOne() * MOVE_PREY_CLOSER_NEW_DISTANCE));
+            }
+        }
+
+        private int RandOfNegativeOneOrPositiveOne()
+        {
+            return m_random.Next(2) == 1 ? 1 : -1;
+        }
 
 		private void CustomDestroy()
 		{
