@@ -57,8 +57,6 @@ namespace Squeeze
 
 			Screens.ScreenManager.Start(typeof(Squeeze.Screens.GameScreen).FullName);
 
-            //DebugViewXNA.LoadContent(graphics.GraphicsDevice, Content);
-
             base.Initialize();
         }
 
@@ -75,11 +73,9 @@ namespace Squeeze
         {
             FlatRedBallServices.Draw();
 
-            // calculate the projection and view adjustments for the debug view
-            Matrix projection = Matrix.CreateOrthographic(graphics.GraphicsDevice.Viewport.Width,
-                                                             graphics.GraphicsDevice.Viewport.Height, 0.01f, 100f);
             // draw the debug view
-            DebugViewXNA.RenderDebugData(ref projection);
+            var vp = SpriteManager.Camera.ViewProjection;
+            DebugViewXNA.RenderDebugData(ref vp);
 
             base.Draw(gameTime);
         }

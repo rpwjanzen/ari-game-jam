@@ -39,17 +39,6 @@
         </NamedObjectSave>
         <NamedObjectSave>
           <SourceType>Entity</SourceType>
-          <SourceFile>Screens/GameScreen/BackgroundSpriteGrid.scnx</SourceFile>
-          <SourceName>Entire File (Scene)</SourceName>
-          <SourceClassType>Entities\Level1Background</SourceClassType>
-          <InstanceName>SpriteGridInstance</InstanceName>
-          <AttachToContainer>true</AttachToContainer>
-          <AddToManagers>true</AddToManagers>
-          <LayerOn>Under Everything (Engine Layer)</LayerOn>
-          <Is2D>false</Is2D>
-        </NamedObjectSave>
-        <NamedObjectSave>
-          <SourceType>Entity</SourceType>
           <SourceClassType>Entities\LevelOne</SourceClassType>
           <InstanceName>LevelOneInstance</InstanceName>
           <AttachToContainer>true</AttachToContainer>

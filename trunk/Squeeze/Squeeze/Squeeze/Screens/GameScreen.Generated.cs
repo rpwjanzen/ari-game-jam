@@ -31,7 +31,6 @@ using FlatRedBall.Broadcasting;
 using Squeeze.Entities;
 using Squeeze.Factories;
 using FlatRedBall;
-using FlatRedBall;
 
 namespace Squeeze.Screens
 {
@@ -46,7 +45,6 @@ namespace Squeeze.Screens
 		private Squeeze.Entities.Creature CreatureInstance;
 		private Squeeze.Entities.FarseerPhysicsEntity FarseerPhysicsEntityInstance;
 		private Squeeze.Entities.PreyGenerator PreyGeneratorInstance;
-		private Scene SpriteGridInstance;
 		private Squeeze.Entities.LevelOne LevelOneInstance;
 
 		public GameScreen()
@@ -62,11 +60,6 @@ namespace Squeeze.Screens
 			{
 			}
 			BackgroundSpriteGrid = FlatRedBallServices.Load<Scene>(@"content/screens/gamescreen/backgroundspritegrid.scnx", ContentManagerName);
-			SpriteGridInstance = BackgroundSpriteGrid;
-			for (int i = 0; i < SpriteGridInstance.Texts.Count; i++)
-			{
-				SpriteGridInstance.Texts[i].AdjustPositionForPixelPerfectDrawing = true;
-			}
 			CreatureInstance = new Squeeze.Entities.Creature(ContentManagerName, false);
 			CreatureInstance.Name = "CreatureInstance";
 			FarseerPhysicsEntityInstance = new Squeeze.Entities.FarseerPhysicsEntity(ContentManagerName, false);
@@ -145,10 +138,6 @@ namespace Squeeze.Screens
 			{
 				PreyGeneratorInstance.Destroy();
 			}
-			if (SpriteGridInstance != null)
-			{
-				SpriteGridInstance.RemoveFromManagers(ContentManagerName != "Global");
-			}
 			if (LevelOneInstance != null)
 			{
 				LevelOneInstance.Destroy();
@@ -178,7 +167,6 @@ namespace Squeeze.Screens
 			CreatureInstance.ConvertToManuallyUpdated();
 			FarseerPhysicsEntityInstance.ConvertToManuallyUpdated();
 			PreyGeneratorInstance.ConvertToManuallyUpdated();
-			SpriteGridInstance.ConvertToManuallyUpdated();
 			LevelOneInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
