@@ -135,6 +135,10 @@
     <Compile Include="Entities\LevelOne.Generated.cs">
       <DependentUpon>LevelOne.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Log.cs" />
+    <Compile Include="Entities\Log.Generated.cs">
+      <DependentUpon>Log.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\Prey.cs" />
     <Compile Include="Entities\Prey.Generated.cs">
       <DependentUpon>Prey.cs</DependentUpon>
@@ -146,6 +150,7 @@
     <Compile Include="Factories\CreatureBodyFactory.Generated.cs" />
     <Compile Include="Factories\CreatureHeadFactory.Generated.cs" />
     <Compile Include="Factories\CreatureTailFactory.Generated.cs" />
+    <Compile Include="Factories\LogFactory.Generated.cs" />
     <Compile Include="Factories\PreyFactory.Generated.cs" />
     <Compile Include="GlobalContent.Generated.cs" />
     <Compile Include="Performance\IPoolable.Generated.cs" />

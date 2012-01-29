@@ -216,6 +216,37 @@
       <ImplementsIClickable>false</ImplementsIClickable>
       <ImplementsIVisible>false</ImplementsIVisible>
       <ImplementsIWindow>false</ImplementsIWindow>
+      <Name>Entities\Log</Name>
+      <NamedObjects>
+        <NamedObjectSave>
+          <SourceType>File</SourceType>
+          <SourceFile>Entities/Log/LogScene.scnx</SourceFile>
+          <SourceName>log_big1 (Sprite)</SourceName>
+          <InstanceName>EntireScene</InstanceName>
+          <AttachToContainer>true</AttachToContainer>
+          <AddToManagers>true</AddToManagers>
+          <Is2D>false</Is2D>
+        </NamedObjectSave>
+      </NamedObjects>
+      <ReferencedFiles>
+        <ReferencedFileSave>
+          <Name>Entities/Log/LogScene.scnx</Name>
+          <IsSharedStatic>true</IsSharedStatic>
+        </ReferencedFileSave>
+      </ReferencedFiles>
+      <Behaviors />
+      <CreatedByOtherEntities>true</CreatedByOtherEntities>
+      <PooledByFactory>false</PooledByFactory>
+      <UseGlobalContent>false</UseGlobalContent>
+      <Events />
+    </EntitySave>
+    <EntitySave>
+      <States />
+      <CustomVariables />
+      <IsUnique>false</IsUnique>
+      <ImplementsIClickable>false</ImplementsIClickable>
+      <ImplementsIVisible>false</ImplementsIVisible>
+      <ImplementsIWindow>false</ImplementsIWindow>
       <Name>Entities\Prey</Name>
       <NamedObjects>
         <NamedObjectSave>

@@ -92,6 +92,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>LevelOneScene</Name>
     </None>
+    <None Include="Entities\Log\log.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>log</Name>
+    </None>
+    <None Include="Entities\Log\LogScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>LogScene</Name>
+    </None>
+    <None Include="Entities\Log\log_big.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>log_big</Name>
+    </None>
     <None Include="Entities\Prey\mouse.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>mouse</Name>
