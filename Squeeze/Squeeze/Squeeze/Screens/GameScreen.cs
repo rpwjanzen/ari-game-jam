@@ -34,6 +34,8 @@ namespace Squeeze.Screens
 		{
             SpriteManager.Camera.UsePixelCoordinates();
             SpriteManager.Camera.AttachTo(cameraCenter, true);
+            //SpriteGridInstance.AddToManagers();
+            //BackgroundInstance.AddToManagers();
 		}
 
 		void CustomActivity(bool firstTimeCalled)
@@ -44,6 +46,8 @@ namespace Squeeze.Screens
             cameraCenter.Position.X = (float)Math.Floor(cameraCenter.Position.X);
             cameraCenter.Position.Y = (float)Math.Floor(cameraCenter.Position.Y);
             cameraCenter.Position.Z = (float)Math.Floor(cameraCenter.Position.Z);
+
+            
 		}
 
 		void CustomDestroy()

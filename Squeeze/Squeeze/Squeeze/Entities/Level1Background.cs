@@ -27,8 +27,7 @@ namespace Squeeze.Entities
 	{
 		private void CustomInitialize()
 		{
-
-
+            
 		}
 
 		private void CustomActivity()
