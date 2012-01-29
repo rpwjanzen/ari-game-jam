@@ -167,6 +167,7 @@
     <Compile Include="Entities\PreyGenerator.Generated.cs">
       <DependentUpon>PreyGenerator.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\Settings.cs" />
     <Compile Include="Factories\ArmadilloFactory.Generated.cs" />
     <Compile Include="Entities\StumpOne.cs" />
     <Compile Include="Entities\StumpOne.Generated.cs">

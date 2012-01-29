@@ -30,7 +30,7 @@ namespace Squeeze.Entities
 
 		private void CustomInitialize()
 		{
-
+            this.Z = Settings.LayersByName[Settings.Layers.Creature];
 
 		}
 
