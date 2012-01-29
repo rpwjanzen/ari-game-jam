@@ -15,7 +15,7 @@
     <Y>0</Y>
     <Z>-40</Z>
     <Orthogonal>true</Orthogonal>
-    <OrthogonalHeight>976</OrthogonalHeight>
+    <OrthogonalHeight>1587.62671</OrthogonalHeight>
     <OrthogonalWidth>-1</OrthogonalWidth>
     <NearClipPlane>1</NearClipPlane>
     <FarClipPlane>1000</FarClipPlane>
@@ -25,6 +25,10 @@
   <PixelSize>0</PixelSize>
   <FilesToMakeDotDotSlashRelative />
   <TextureDisplayRegionsList>
+    <TextureDisplayRegionsSave>
+      <TextureName>armadillo.png</TextureName>
+      <DisplayRegions />
+    </TextureDisplayRegionsSave>
     <TextureDisplayRegionsSave>
       <TextureName>armadillo.png</TextureName>
       <DisplayRegions />
