@@ -84,13 +84,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TailScene</Name>
     </None>
-    <None Include="Entities\Level1Background\foresttilesheet.png">
+    <None Include="Entities\LevelOne\foresttilesheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>foresttilesheet</Name>
     </None>
-    <None Include="Entities\Level1Background\TestScene1.scnx">
+    <None Include="Entities\LevelOne\LevelOneScene.scnx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Name>TestScene1</Name>
+      <Name>LevelOneScene</Name>
     </None>
     <None Include="Entities\Prey\mouse.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

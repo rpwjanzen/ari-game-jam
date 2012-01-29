@@ -131,9 +131,9 @@
     <Compile Include="Entities\FarseerPhysicsEntity.Generated.cs">
       <DependentUpon>FarseerPhysicsEntity.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entities\Level1Background.cs" />
-    <Compile Include="Entities\Level1Background.Generated.cs">
-      <DependentUpon>Level1Background.cs</DependentUpon>
+    <Compile Include="Entities\LevelOne.cs" />
+    <Compile Include="Entities\LevelOne.Generated.cs">
+      <DependentUpon>LevelOne.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\Prey.cs" />
     <Compile Include="Entities\Prey.Generated.cs">
