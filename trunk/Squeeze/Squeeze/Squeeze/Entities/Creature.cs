@@ -57,7 +57,8 @@ namespace Squeeze.Entities
             }
         }
 
-        const float halfHeight = 40f / 2f;
+        const int numSegments = 20;
+        const float halfHeight = 20f / 2f;
         const float halfWidth = 20f / 2f;
 
         private PolygonShape GetBodyShape()
@@ -71,11 +72,11 @@ namespace Squeeze.Entities
 		private void CustomInitialize()
 		{
             m_world = FarseerPhysicsEntity.World;
-            int numSegments = 10;
+            
 
             Path m_path = new Path();
-            m_path.Add(new Vector2(0, numSegments * -30));
-            m_path.Add(new Vector2(0, numSegments * 30));
+            m_path.Add(new Vector2(0, numSegments * -halfHeight));
+            m_path.Add(new Vector2(0, numSegments * halfHeight));
             m_path.Closed = false;
 
             List<Shape> shapes = new List<Shape>();
@@ -94,7 +95,7 @@ namespace Squeeze.Entities
             headBody.BodyType = BodyType.Dynamic;
             headBody.LinearDamping = 0.005f;
             headBody.CreateFixture(GetBodyShape());
-            headBody.Position = new Vector2(0, (numSegments + 1) * -30) + startingOffset;
+            headBody.Position = new Vector2(0, (numSegments + 1) * -halfHeight) + startingOffset;
 
             Join(bodies[0], headBody);
 

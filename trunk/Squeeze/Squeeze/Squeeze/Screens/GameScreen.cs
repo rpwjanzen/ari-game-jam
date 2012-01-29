@@ -35,57 +35,11 @@ namespace Squeeze.Screens
 	{
         private PositionedObject cameraCenter = new PositionedObject();
 
-        private int m_logCount = 100;
-
-        private World m_world;
-
-        private Random m_random = new Random(271);
-
-        int levelWidth = 3200;
-        int levelHeight = 9600;
-        float borderWidth = 50f;
-
-        private static readonly PositionedObjectList<Log> g_logs = new PositionedObjectList<Log>();
-
 		void CustomInitialize()
 		{
             SpriteManager.Camera.UsePixelCoordinates();
             SpriteManager.Camera.AttachTo(cameraCenter, true);
-            m_world = FarseerPhysicsEntity.World;
-            
-            AddLogs(m_logCount);
 		}
-
-        private void AddLogs(int logCount)
-        {
-            for (int i = 0; i < logCount; i++)
-            {
-                float width = 40;
-                float height = 240;
-                float rotation = 0;
-
-                bool isHorizontal = i % 2 == 0;
-                Body body;
-                if (isHorizontal)
-                    rotation = (float)Math.PI;
-
-                body = BodyFactory.CreateRectangle(m_world, width, height, 1);
-                body.BodyType = BodyType.Static;
-                var position = GetRandomPosition();
-                body.SetTransform(position, rotation);
-                
-                var log = LogFactory.CreateNew();
-                log.Body = body;
-            }
-        }
-
-        private Vector2 GetRandomPosition()
-        {
-            int x = m_random.Next(0, levelWidth);
-            int y = m_random.Next(-levelHeight, 0);
-
-            return new Vector2(x, y);
-        }
 
         void CustomActivity(bool firstTimeCalled)
 		{
@@ -95,12 +49,6 @@ namespace Squeeze.Screens
             cameraCenter.Position.X = (float)Math.Floor(cameraCenter.Position.X);
             cameraCenter.Position.Y = (float)Math.Floor(cameraCenter.Position.Y);
             cameraCenter.Position.Z = (float)Math.Floor(cameraCenter.Position.Z);
-            
-            if (firstTimeCalled)
-            {
-                foreach (var log in g_logs)
-                    log.Activity();
-            }
 		}
 
 		void CustomDestroy()
@@ -111,7 +59,7 @@ namespace Squeeze.Screens
 
         static void CustomLoadStaticContent(string contentManagerName)
         {
-            LogFactory.Initialize(g_logs, contentManagerName);
+            
         }
 	}
 }

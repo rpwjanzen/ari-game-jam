@@ -17,8 +17,6 @@ using GuiManager = FlatRedBall.Gui.GuiManager;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using Vector3 = Microsoft.Xna.Framework.Vector3;
 using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
-using FlatRedBall.Math;
-using Squeeze.Factories;
 using FarseerPhysics.Dynamics;
 
 
@@ -26,41 +24,35 @@ using FarseerPhysics.Dynamics;
 
 namespace Squeeze.Entities
 {
-	public partial class PreyGenerator
+	public partial class TreeZero
 	{
-        public static readonly PositionedObjectList<Prey> g_prey = new PositionedObjectList<Prey>();
-        private readonly Random m_random = new Random(271);
-        
+        public Body Body { get; set; }
+
 		private void CustomInitialize()
 		{
+
+
 		}
 
 		private void CustomActivity()
 		{
-            return;
+            this.Position.X = Body.Position.X;
+            this.Position.Y = Body.Position.Y;
 
-            while (g_prey.Count < 10)
-            {
-                var prey = PreyFactory.CreateNew();
-                prey.SetupRandomGenerator(m_random.Next(int.MaxValue));
-                int x = m_random.Next(0 + 64, 800 - 64);
-                int y = m_random.Next(-600 - 64 , - (0 + 64));
+            this.RotationZ = Body.Rotation;
 
-                prey.Body.Position = new Microsoft.Xna.Framework.Vector2(x, y);
-            }
-
-            foreach (var prey in g_prey)
-                prey.Activity();
 		}
 
 		private void CustomDestroy()
 		{
 
+
 		}
 
         private static void CustomLoadStaticContent(string contentManagerName)
         {
-            PreyFactory.Initialize(g_prey, contentManagerName);
+
+
         }
 	}
 }
