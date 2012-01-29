@@ -27,6 +27,7 @@ using Squeeze.Factories;
 using FlatRedBall.Math;
 using Squeeze.Screens;
 using FarseerPhysics.Dynamics.Joints;
+using Microsoft.Xna.Framework.Audio;
 
 
 #endif
@@ -50,6 +51,8 @@ namespace Squeeze.Entities
 	    private const int MOVE_PREY_CLOSER_NEW_DISTANCE = 500;
 
 	    private Random m_random = new Random();
+
+        private static SoundEffect m_mouseSquish;
 
         public Vector3 Centroid
         {
@@ -156,6 +159,8 @@ namespace Squeeze.Entities
                 creatureBodySegment.Body = bodies[i];
                 m_creatureBodySegments.Add(creatureBodySegment);
             }
+
+            m_mouseSquish = FlatRedBallServices.Load<SoundEffect>("Content\\MouseSquish");
 		}
 
         private void Unjoin(Body a, Body b)
@@ -240,8 +245,6 @@ namespace Squeeze.Entities
 
         private void HandleInput()
         {
-
-
             bool isKeyPressed = false;
             var keyboard = InputManager.Keyboard;
             if (keyboard.KeyDown(Keys.W))
@@ -349,6 +352,7 @@ namespace Squeeze.Entities
                     deadPrey.RotationMatrix = prey.RotationMatrix;
                     prey.Destroy();
                     m_lastPreyKillTime = TimeManager.CurrentTime;
+                    m_mouseSquish.Play();
                 }
                 else
                 {
@@ -363,6 +367,7 @@ namespace Squeeze.Entities
                         deadArmadillo.RotationMatrix = armadillo.RotationMatrix;
                         armadillo.Destroy();
                         m_lastPreyKillTime = TimeManager.CurrentTime;
+                        m_mouseSquish.Play();
                     }
                     else
                     {
@@ -377,6 +382,7 @@ namespace Squeeze.Entities
                             deadBuffalo.RotationMatrix = buffalo.RotationMatrix;
                             buffalo.Destroy();
                             m_lastPreyKillTime = TimeManager.CurrentTime;
+                            m_mouseSquish.Play();
                         }
                     }
                 }
