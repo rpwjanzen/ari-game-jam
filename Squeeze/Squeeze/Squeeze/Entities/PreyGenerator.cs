@@ -37,8 +37,6 @@ namespace Squeeze.Entities
 
 		private void CustomActivity()
 		{
-            return;
-
             while (g_prey.Count < 10)
             {
                 var prey = PreyFactory.CreateNew();

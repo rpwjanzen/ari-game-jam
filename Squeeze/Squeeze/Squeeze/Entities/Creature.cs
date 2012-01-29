@@ -49,11 +49,13 @@ namespace Squeeze.Entities
             get
             {
                 Vector3 v = m_creatureHead.Position;
-                foreach (var bodySegment in m_creatureBodies)
-                    v += bodySegment.Position;
-                v += m_creatureTail.Position;
+                return v;
 
-                return v / (m_creatureBodies.Count + 2);
+                //foreach (var bodySegment in m_creatureBodies)
+                //    v += bodySegment.Position;
+                //v += m_creatureTail.Position;
+
+                //return v / (m_creatureBodies.Count + 2);
             }
         }
 
@@ -108,6 +110,7 @@ namespace Squeeze.Entities
             foreach (var body in bodies)
             {
                 body.Position += startingOffset;
+                body.Mass = 32;
             }
 
             for (int i = 0; i < bodies.Count - 1; i++)
@@ -144,6 +147,7 @@ namespace Squeeze.Entities
             body.BodyType = BodyType.Dynamic;
             body.LinearDamping = 0.005f;
             body.CreateFixture(GetBodyShape());
+            body.Mass = 10;
 
             var newSegment = CreatureBodyFactory.CreateNew();
             newSegment.Body = body;

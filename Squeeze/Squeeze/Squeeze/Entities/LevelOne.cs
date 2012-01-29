@@ -27,8 +27,7 @@ namespace Squeeze.Entities
 	{
 		private void CustomInitialize()
 		{
-            
-
+            this.EntireScene.Shift(0, 0, -1);
 		}
 
 		private void CustomActivity()
