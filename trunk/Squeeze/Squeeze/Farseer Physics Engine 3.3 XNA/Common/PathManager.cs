@@ -198,17 +198,8 @@ namespace FarseerPhysics.Factories
         }
 
         /// <summary>
-        /// Attaches the bodies with revolute joints.
+        /// Attaches the bodies with spring joints.
         /// </summary>
-        /// <param name="world">The world.</param>
-        /// <param name="bodies">The bodies.</param>
-        /// <param name="localAnchorA">The local anchor A.</param>
-        /// <param name="localAnchorB">The local anchor B.</param>
-        /// <param name="connectFirstAndLast">if set to <c>true</c> [connect first and last].</param>
-        /// <param name="collideConnected">if set to <c>true</c> [collide connected].</param>
-        /// <param name="minLength">Minimum length of the slider joint.</param>
-        /// <param name="maxLength">Maximum length of the slider joint.</param>
-        /// <returns></returns>
         public static List<SliderJoint> AttachBodiesWithSliderJoint(World world, List<Body> bodies, Vector2 localAnchorA,
                                                                     Vector2 localAnchorB, bool connectFirstAndLast,
                                                                     bool collideConnected, float minLength,
@@ -218,8 +209,7 @@ namespace FarseerPhysics.Factories
 
             for (int i = 1; i < bodies.Count; i++)
             {
-                SliderJoint joint = new SliderJoint(bodies[i], bodies[i - 1], localAnchorA, localAnchorB, minLength,
-                                                    maxLength);
+                SliderJoint joint = new SliderJoint(bodies[i], bodies[i - 1], localAnchorA, localAnchorB, minLength, maxLength);
                 joint.CollideConnected = collideConnected;
                 world.AddJoint(joint);
                 joints.Add(joint);
@@ -227,8 +217,7 @@ namespace FarseerPhysics.Factories
 
             if (connectFirstAndLast)
             {
-                SliderJoint lastjoint = new SliderJoint(bodies[0], bodies[bodies.Count - 1], localAnchorA, localAnchorB,
-                                                        minLength, maxLength);
+                SliderJoint lastjoint = new SliderJoint(bodies[0], bodies[bodies.Count - 1], localAnchorA, localAnchorB, minLength, maxLength);
                 lastjoint.CollideConnected = collideConnected;
                 world.AddJoint(lastjoint);
                 joints.Add(lastjoint);

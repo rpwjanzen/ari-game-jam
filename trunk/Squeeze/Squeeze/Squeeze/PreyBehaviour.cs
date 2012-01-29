@@ -90,6 +90,7 @@ namespace Squeeze
             body.BodyType = BodyType.Dynamic;
             body.LinearDamping = 0.15f;
             body.AngularDamping = 0.15f;
+            body.Restitution = 0;
 
             body.Mass = preyMass;
             return body;
