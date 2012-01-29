@@ -53,7 +53,7 @@ namespace Squeeze.Entities
 		{
             m_world = FarseerPhysicsEntity.World;
 
-            var body = BodyFactory.CreateRectangle(m_world, 64, 64, 1);
+            var body = BodyFactory.CreateRectangle(m_world, 32, 32, 1);
             body.BodyType = BodyType.Dynamic;
             body.LinearDamping = 0.15f;
             body.AngularDamping = 0.15f;
