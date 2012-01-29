@@ -49,6 +49,7 @@ namespace Squeeze.Entities
 		private void CustomInitialize()
         {
             m_world = FarseerPhysicsEntity.World;
+            this.Z = Settings.LayersByName[Settings.Layers.Buffalo];
 
             Body = PreyBehaviour.InitializePreyBody(m_world, preySize: 64, preyMass: 16);
 		}

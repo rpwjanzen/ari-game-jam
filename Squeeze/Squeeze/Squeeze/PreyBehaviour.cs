@@ -81,7 +81,7 @@ namespace Squeeze
 
             //return null;
 
-            return Matrix.CreateRotationZ(preyBody.Rotation);
+            return Matrix.CreateRotationZ(preyBody.Rotation - (float)(Math.PI / 2.0));
         }
 
         public static Body InitializePreyBody(World world, int preySize, int preyMass)

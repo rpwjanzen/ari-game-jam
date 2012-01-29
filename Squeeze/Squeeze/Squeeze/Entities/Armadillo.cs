@@ -50,7 +50,7 @@ namespace Squeeze.Entities
 		private void CustomInitialize()
         {
             m_world = FarseerPhysicsEntity.World;
-
+            this.Z = Settings.LayersByName[Settings.Layers.Armadillo];
 		    Body = PreyBehaviour.InitializePreyBody(m_world, preySize: 32, preyMass: 8);
         }
 
