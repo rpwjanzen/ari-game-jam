@@ -45,7 +45,11 @@ namespace Squeeze.Entities
 
 	    private double m_lastPreyKillTime = 0;
         private const double MIN_TIME_BETWEEN_KILLS = 0.5;
-        private Vector2 startingOffset = new Vector2(800, -500);
+
+        const int levelWidth = 3200;
+        const int levelHeight = 9600;
+
+        private Vector2 startingOffset = new Vector2(levelWidth /2, -(levelHeight / 2));
 
 	    private const int MOVE_PREY_CLOSER_TRIGGER_DISTANCE = 750;
 	    private const int MOVE_PREY_CLOSER_NEW_DISTANCE = 500;
@@ -78,7 +82,7 @@ namespace Squeeze.Entities
 	    {
             get { return new Vector2(Centroid.X, Centroid.Y); }
 	    }
-        const int InitialSegmentCount = 40;
+        const int InitialSegmentCount = 15;
         const float HalfHeight = 10f / 2f;
         const float HalfWidth = 15f / 2f;
 
@@ -87,7 +91,7 @@ namespace Squeeze.Entities
         const float Frequency = 0;
         const float DampeningRatio = 0;
         const float MinLength = 1;
-        const float MaxLength = 1;
+        const float MaxLength = 5;
 
         const float LinearDampening = 0.01f;
         const float Friction = 1f;
@@ -104,7 +108,7 @@ namespace Squeeze.Entities
         private PolygonShape GetBodyShape()
         {
             //var capsuleVertices = PolygonTools.CreateRectangle(HalfWidth, HalfHeight);
-            var capsuleVertices = PolygonTools.CreateCircle(HalfWidth, 8);
+            var capsuleVertices = PolygonTools.CreateCircle(HalfWidth, 6);
             var shape = new PolygonShape(capsuleVertices, Density);
             return shape;
         }
@@ -275,7 +279,36 @@ namespace Squeeze.Entities
             else
                 ForwardForce = NormalForwardForce;
 
-            if (keyboard.KeyDown(Keys.W))
+            if (keyboard.KeyDown(Keys.A))
+            {
+                Transform t;
+                m_creatureHead.Body.GetTransform(out t);
+
+                var rotationMatrix = GetRotationMatrix(t.Angle);
+
+                var localLeft = Vector2.UnitX;
+                var absoluteLeft = rotationMatrix.Solve(localLeft);
+                m_creatureHead.Body.ApplyForce(absoluteLeft * LateralForce);
+
+                //ApplyForceToSomeSegments(LateralForce, localLeft);
+
+                isKeyPressed = true;
+            }
+            else if (keyboard.KeyDown(Keys.D))
+            {
+                Transform t;
+                m_creatureHead.Body.GetTransform(out t);
+
+                var rotationMatrix = GetRotationMatrix(t.Angle);
+                var localRight = -Vector2.UnitX;
+                var absoluteRight = rotationMatrix.Solve(localRight);
+                m_creatureHead.Body.ApplyForce(absoluteRight * LateralForce);
+
+                //ApplyForceToSomeSegments(LateralForce, localRight);
+
+                isKeyPressed = true;
+            }
+            else if (keyboard.KeyDown(Keys.W))
             {
                 Transform t;
                 m_creatureHead.Body.GetTransform(out t);
@@ -304,35 +337,6 @@ namespace Squeeze.Entities
                 isKeyPressed = true;
             }
 
-            if (keyboard.KeyDown(Keys.A))
-            {
-                Transform t;
-                m_creatureHead.Body.GetTransform(out t);
-
-                var rotationMatrix = GetRotationMatrix(t.Angle);
-                
-                var localLeft = Vector2.UnitX;
-                var absoluteLeft = rotationMatrix.Solve(localLeft);
-                m_creatureHead.Body.ApplyForce(absoluteLeft * LateralForce);
-
-                //ApplyForceToSomeSegments(LateralForce, localLeft);
-
-                isKeyPressed = true;
-            }
-            else if (keyboard.KeyDown(Keys.D))
-            {
-                Transform t;
-                m_creatureHead.Body.GetTransform(out t);
-
-                var rotationMatrix = GetRotationMatrix(t.Angle);
-                var localRight = -Vector2.UnitX;
-                var absoluteRight = rotationMatrix.Solve(localRight);
-                m_creatureHead.Body.ApplyForce(absoluteRight * LateralForce);
-
-                //ApplyForceToSomeSegments(LateralForce, localRight);
-
-                isKeyPressed = true;
-            }
 
             if (!isKeyPressed)
             {
