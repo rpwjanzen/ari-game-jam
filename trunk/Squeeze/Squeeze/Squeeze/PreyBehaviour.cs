@@ -47,7 +47,7 @@ namespace Squeeze
                 (float)Math.Cos(t.Angle));
 
             var forward = rotationMatrix.Solve(-Vector2.UnitY);
-            preyBody.ApplyForce(forward * 200);
+            preyBody.ApplyForce(forward * 2);
 
             var left = rotationMatrix.Solve(Vector2.UnitX);
 
