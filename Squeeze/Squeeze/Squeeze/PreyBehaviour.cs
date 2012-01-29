@@ -25,7 +25,7 @@ namespace Squeeze
         /// <param name="random"></param>
         /// <param name="rotationMatrix"></param>
         /// <returns>The new rotation matrix.</returns>
-        public static Matrix MovePrey(
+        public static Matrix? MovePrey(
             PositionedObject prey, 
             Body preyBody, 
             ref int angularVelocity,
@@ -65,18 +65,20 @@ namespace Squeeze
         /// <summary>
         /// Rotate visible representation to match direction of current velocity
         /// </summary>
-        private static Matrix GetRotation(Body preyBody)
+        private static Matrix? GetRotation(Body preyBody)
         {
-            var velocity = preyBody.LinearVelocity;
-            if (velocity.LengthSquared() > 1 * 1)
-            {
-                velocity.Normalize();
-                var rotation = (float)Math.Atan2(velocity.Y, velocity.X) + MathHelper.PiOver2;
+            //var velocity = preyBody.LinearVelocity;
+            //if (velocity.LengthSquared() > 1 * 1)
+            //{
+            //    velocity.Normalize();
+            //    var rotation = (float)Math.Atan2(velocity.Y, velocity.X) + MathHelper.PiOver2;
 
-                return Matrix.CreateRotationZ(rotation);
-            }
+            //    return Matrix.CreateRotationZ(rotation);
+            //}
 
-            return Matrix.Identity;
+            //return null;
+
+            return Matrix.CreateRotationZ(preyBody.Rotation);
         }
 
         public static Body InitializePreyBody(World world, int preySize, int preyMass)

@@ -92,6 +92,14 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>TailScene</Name>
     </None>
+    <None Include="Entities\DeadPrey\DeadPreyScene.scnx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>DeadPreyScene</Name>
+    </None>
+    <None Include="Entities\DeadPrey\mouse_explode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Name>mouse_explode</Name>
+    </None>
     <None Include="Entities\LevelOne\foresttilesheet.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>foresttilesheet</Name>

@@ -135,6 +135,14 @@
     <Compile Include="Entities\CreatureTail.Generated.cs">
       <DependentUpon>CreatureTail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entities\DeadPrey.cs" />
+    <Compile Include="Entities\DeadPrey.Generated.cs">
+      <DependentUpon>DeadPrey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\DeadPreyGenerator.cs" />
+    <Compile Include="Entities\DeadPreyGenerator.Generated.cs">
+      <DependentUpon>DeadPreyGenerator.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entities\DoodadGenerator.cs" />
     <Compile Include="Entities\DoodadGenerator.Generated.cs">
       <DependentUpon>DoodadGenerator.cs</DependentUpon>
@@ -179,6 +187,7 @@
     <Compile Include="Factories\CreatureBodyFactory.Generated.cs" />
     <Compile Include="Factories\CreatureHeadFactory.Generated.cs" />
     <Compile Include="Factories\CreatureTailFactory.Generated.cs" />
+    <Compile Include="Factories\DeadPreyFactory.Generated.cs" />
     <Compile Include="Factories\LogFactory.Generated.cs" />
     <Compile Include="Factories\PreyFactory.Generated.cs" />
     <Compile Include="Factories\StumpOneFactory.Generated.cs" />

@@ -54,11 +54,14 @@ namespace Squeeze.Entities
 
 		private void CustomActivity()
 		{
-            this.RotationMatrix = PreyBehaviour.MovePrey(
+            var newRotationMatrix = PreyBehaviour.MovePrey(
                 this,
                 Body, 
                 ref m_angularVelocity, 
                 m_random);
+
+            if (newRotationMatrix != null)
+                this.RotationMatrix = (Matrix)newRotationMatrix;
 		}
 
 		private void CustomDestroy()

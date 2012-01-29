@@ -48,6 +48,7 @@ namespace Squeeze.Screens
 		private Squeeze.Entities.LevelOne LevelOneInstance;
 		private Squeeze.Entities.ArmadilloGenerator ArmadilloGeneratorInstance;
 		private Squeeze.Entities.DoodadGenerator DoodadGeneratorInstance;
+		private Squeeze.Entities.DeadPreyGenerator DeadPreyGeneratorInstance;
 
 		public GameScreen()
 			: base("GameScreen")
@@ -74,6 +75,8 @@ namespace Squeeze.Screens
 			ArmadilloGeneratorInstance.Name = "ArmadilloGeneratorInstance";
 			DoodadGeneratorInstance = new Squeeze.Entities.DoodadGenerator(ContentManagerName, false);
 			DoodadGeneratorInstance.Name = "DoodadGeneratorInstance";
+			DeadPreyGeneratorInstance = new Squeeze.Entities.DeadPreyGenerator(ContentManagerName, false);
+			DeadPreyGeneratorInstance.Name = "DeadPreyGeneratorInstance";
 			
 			
 			PostInitialize();
@@ -105,6 +108,7 @@ namespace Squeeze.Screens
 				LevelOneInstance.Activity();
 				ArmadilloGeneratorInstance.Activity();
 				DoodadGeneratorInstance.Activity();
+				DeadPreyGeneratorInstance.Activity();
 			}
 			else
 			{
@@ -158,6 +162,10 @@ namespace Squeeze.Screens
 			{
 				DoodadGeneratorInstance.Destroy();
 			}
+			if (DeadPreyGeneratorInstance != null)
+			{
+				DeadPreyGeneratorInstance.Destroy();
+			}
 
 			base.Destroy();
 
@@ -178,6 +186,7 @@ namespace Squeeze.Screens
 			LevelOneInstance.AddToManagers(mLayer);
 			ArmadilloGeneratorInstance.AddToManagers(mLayer);
 			DoodadGeneratorInstance.AddToManagers(mLayer);
+			DeadPreyGeneratorInstance.AddToManagers(mLayer);
 		}
 		public virtual void ConvertToManuallyUpdated ()
 		{
@@ -188,6 +197,7 @@ namespace Squeeze.Screens
 			LevelOneInstance.ConvertToManuallyUpdated();
 			ArmadilloGeneratorInstance.ConvertToManuallyUpdated();
 			DoodadGeneratorInstance.ConvertToManuallyUpdated();
+			DeadPreyGeneratorInstance.ConvertToManuallyUpdated();
 		}
 		public static void LoadStaticContent (string contentManagerName)
 		{
@@ -207,6 +217,7 @@ namespace Squeeze.Screens
 			Squeeze.Entities.LevelOne.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.ArmadilloGenerator.LoadStaticContent(contentManagerName);
 			Squeeze.Entities.DoodadGenerator.LoadStaticContent(contentManagerName);
+			Squeeze.Entities.DeadPreyGenerator.LoadStaticContent(contentManagerName);
 			CustomLoadStaticContent(contentManagerName);
 		}
 		object GetMember (string memberName)
